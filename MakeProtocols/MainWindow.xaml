@@ -39,12 +39,13 @@
 
             <TextBlock Grid.Column="0" Grid.Row="5" Margin="1" VerticalAlignment="Center" Text="Данные по автоматам"/>
             <DataGrid x:Name="dgAutomats" Grid.Column="1" Grid.Row="5" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding Source=AutomatsList}" 
-                      AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto" SelectedItem="{Binding SelectedAutomat}" >
+                      AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto" SelectedItem="{Binding SelectedAutomat}" 
+                      PreviewKeyDown="DgAutomats_PreviewKeyDown">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Автомат" Width="auto" Binding="{Binding NameAutomat}" />
                     <DataGridTextColumn Header="Назначение" Width="auto" Binding="{Binding Description}" />
                     <DataGridTextColumn Header="Тип" Width="auto" Binding="{Binding Type}" />
-                    <DataGridTextColumn Header="Заводской номер" Width="auto" Binding="{Binding NumbVendor}" />
+                    <DataGridTextColumn Header="Заводской номер" Width="auto" Binding="{Binding VendorNumb}" />
                     <DataGridTextColumn Header="Номинальный ток" Width="auto" Binding="{Binding NominalCurrent}" />
                     <DataGridTextColumn Header="Номинальное напряжение" Width="auto" Binding="{Binding NominalVoltage}" />
                     <DataGridTextColumn Header="Ir" Width="auto" MinWidth="100" Binding="{Binding Ust_Ir}" />

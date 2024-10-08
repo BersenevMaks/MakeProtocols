@@ -54,6 +54,40 @@ namespace MakeProtocols
             
         }
 
+        private void DgAutomats_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.V && (System.Windows.Input.Keyboard.Modifiers & System.Windows.Input.ModifierKeys.Control) == System.Windows.Input.ModifierKeys.Control)
+            {
+                string clipboardText = Clipboard.GetText();
+                PasteDataIntoDataGrid(clipboardText);
+                e.Handled = true;
+            }
+        }
 
+        private void PasteDataIntoDataGrid(string clipboardText)
+        {
+            string[] rows = clipboardText.Split('\n');
+            int numRows = rows.Length - 1; // Exclude the last empty row
+
+            if (numRows > 0)
+            {
+                // Clear the existing rows if needed
+                dgAutomats.Items.Clear();
+
+                // Parse and populate the DataGrid
+                for (int i = 0; i < numRows; i++)
+                {
+                    string[] values = rows[i].Split('\t'); // Assuming tab-separated values, adjust for other delimiters
+                    dgAutomats.Items.Add(new Automat
+                    {
+                        // Assuming your DataGrid is bound to YourDataItem objects with properties
+                        // Adjust the mapping according to your data structure
+                        NameAutomat = values[0],
+                        Property2 = values[1],
+                        // ...
+                    });
+                }
+            }
+        }
     }
 }
