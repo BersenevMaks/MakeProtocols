@@ -42,7 +42,9 @@
                       AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto" SelectedItem="{Binding SelectedAutomat}" 
                       PreviewKeyDown="DgAutomats_PreviewKeyDown">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Автомат" Width="auto" Binding="{Binding NameAutomat}" />
+                    <DataGridTextColumn Header="Секция" Width="auto" Binding="{Binding Section}" />
+                    <DataGridTextColumn Header="QFQS" Width="auto" Binding="{Binding QFQS}" />
+                    <DataGridTextColumn Header="Позиц.Номер" Width="auto" Binding="{Binding PositionNumber}" />
                     <DataGridTextColumn Header="Назначение" Width="auto" Binding="{Binding Description}" />
                     <DataGridTextColumn Header="Тип" Width="auto" Binding="{Binding Type}" />
                     <DataGridTextColumn Header="Заводской номер" Width="auto" Binding="{Binding VendorNumb}" />

@@ -78,14 +78,8 @@ namespace MakeProtocols
                 for (int i = 0; i < numRows; i++)
                 {
                     string[] values = rows[i].Split('\t'); // Assuming tab-separated values, adjust for other delimiters
-                    dgAutomats.Items.Add(new Automat
-                    {
-                        // Assuming your DataGrid is bound to YourDataItem objects with properties
-                        // Adjust the mapping according to your data structure
-                        NameAutomat = values[0],
-                        Property2 = values[1],
-                        // ...
-                    });
+                    Automat au = new Automat();
+                    dgAutomats.Items.Add(au.Factory(values[0],values[1], values[2], values[4]);
                 }
             }
         }
