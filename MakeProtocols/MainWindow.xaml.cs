@@ -27,10 +27,12 @@ namespace MakeProtocols
             this.DataContext = this;
         }
 
-        public ObservableCollection<Automat> AutomatsList;
+        public ObservableCollection<Automat> AutomatsList { get; set; }
 
-        public ObservableCollection<Relay> RelayList;
+        public ObservableCollection<Relay> RelayList { get; set; }
         
+        public ObservableCollection<SF> SFList { get; set; }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SetSource();
@@ -40,14 +42,19 @@ namespace MakeProtocols
         {
             AutomatsList = new ObservableCollection<Automat>();
             RelayList = new ObservableCollection<Relay>();
+            SFList = new ObservableCollection<SF>();
 
             for (int i = 0; i < 10; i++)
             {
                 AutomatsList.Add(new Automat() { NameAutomat = "Автомат " + i, Description = " ", NominalCurrent = " ", NominalVoltage = " ", NumbVendor = " ", Type = " ", Ust_Ig = " ", Ust_Ii = " ", Ust_Ir=" ", Ust_Isd=" ", Ust_Tg=" ", Ust_Ti = " ", Ust_Tr = " ", Ust_Tsd = " "});
                 RelayList.Add(new Relay() { IDrelay = "1", TypeRelay = " " });
             }
+            SFList.Add(new SF() { Name = "111" });
 
-            //dgRelayList.ItemsSource = RelayList;
+            dgAutomats.ItemsSource = AutomatsList;
+            dgRelayList.ItemsSource = RelayList;
+            dgSFs.ItemsSource = SFList;
+            
         }
 
 

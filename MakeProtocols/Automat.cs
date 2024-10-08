@@ -17,5 +17,7 @@
         public string Ust_Ig { get; set; }
         public string Ust_Tg { get; set; }
 
+
+
     }
 }

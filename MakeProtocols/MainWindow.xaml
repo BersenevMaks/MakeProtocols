@@ -38,7 +38,7 @@
             <TextBox Grid.Column="1" Grid.Row="4" Height="auto" Margin="2" VerticalAlignment="Center"/>
 
             <TextBlock Grid.Column="0" Grid.Row="5" Margin="1" VerticalAlignment="Center" Text="Данные по автоматам"/>
-            <DataGrid Grid.Column="1" Grid.Row="5" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding Source=AutomatsList}" 
+            <DataGrid x:Name="dgAutomats" Grid.Column="1" Grid.Row="5" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding Source=AutomatsList}" 
                       AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto" SelectedItem="{Binding SelectedAutomat}" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Автомат" Width="auto" Binding="{Binding NameAutomat}" />
@@ -68,11 +68,18 @@
             </DataGrid>
 
             <TextBlock Grid.Column="0" Grid.Row="7" Margin="1" VerticalAlignment="Center" Text="Данные SF"/>
-            <DataGrid Grid.Column="1" Grid.Row="7" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding Source=SFList}" 
+            <DataGrid x:Name="dgSFs"  Grid.Column="1" Grid.Row="7" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding Source=SFList}" 
                       AutoGenerateColumns="False" SelectedItem="{Binding SelectedSF}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Номер реле" Width="auto" Binding="{Binding IDSF}" />
-                    <DataGridTextColumn Header="Тип реле" Width="auto" Binding="{Binding TypeSF}" />
+                    <DataGridTextColumn Header="Номер реле" Width="auto" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Тип реле" Width="auto" Binding="{Binding Type}" />
+                    <DataGridTextColumn Header="Характеристика" Width="auto" Binding="{Binding Character}" />
+                    <DataGridTextColumn Header="Номинальный ток" Width="auto" Binding="{Binding Inom}" />
+                    <DataGridTextColumn Header="Фаза" Width="auto" Binding="{Binding Phase}" />
+                    <DataGridTextColumn Header="Ток перегруза" Width="auto" Binding="{Binding Ioverload}" />
+                    <DataGridTextColumn Header="Время перегруза" Width="auto" Binding="{Binding Toverload}" />
+                    <DataGridTextColumn Header="Ток отсечки" Width="auto" Binding="{Binding Ito}" />
+                    <DataGridTextColumn Header="Время отсечки" Width="auto" Binding="{Binding Tto}" />
                 </DataGrid.Columns>
             </DataGrid>
 

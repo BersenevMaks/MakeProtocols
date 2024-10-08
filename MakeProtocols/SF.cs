@@ -1,6 +1,6 @@
 ﻿namespace MakeProtocols
 {
-    public abstract class SF
+    public class SF
     {
         public string Name { get; set; }
         public string Type { get; set; }
