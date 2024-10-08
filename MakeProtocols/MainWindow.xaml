@@ -39,7 +39,7 @@
 
             <TextBlock Grid.Column="0" Grid.Row="5" Margin="1" VerticalAlignment="Center" Text="Данные по автоматам"/>
             <DataGrid Grid.Column="1" Grid.Row="5" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding AtomatsList}" 
-                      AutoGenerateColumns="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" SelectedItem="{Binding SelectedAutomat}">
+                      AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto" SelectedItem="{Binding SelectedAutomat}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Автомат" Width="auto" Binding="{Binding NameAutomat}" />
                     <DataGridTextColumn Header="Назначение" Width="auto" Binding="{Binding Description}" />
@@ -47,14 +47,14 @@
                     <DataGridTextColumn Header="Заводской номер" Width="auto" Binding="{Binding NumbVendor}" />
                     <DataGridTextColumn Header="Номинальный ток" Width="auto" Binding="{Binding NominalCurrent}" />
                     <DataGridTextColumn Header="Номинальное напряжение" Width="auto" Binding="{Binding NominalVoltage}" />
-                    <DataGridTextColumn Header="Ir" Width="auto" Binding="{Binding Ust_Ir}" />
-                    <DataGridTextColumn Header="Tr" Width="auto" Binding="{Binding Ust_Tr}" />
-                    <DataGridTextColumn Header="Isd" Width="auto" Binding="{Binding Ust_Isd}" />
-                    <DataGridTextColumn Header="Tsd" Width="auto" Binding="{Binding Ust_Tsd}" />
-                    <DataGridTextColumn Header="Ii" Width="auto" Binding="{Binding Ust_Ii}" />
-                    <DataGridTextColumn Header="Ti" Width="auto" Binding="{Binding Ust_Ti}" />
-                    <DataGridTextColumn Header="Ig" Width="auto" Binding="{Binding Ust_Ig}" />
-                    <DataGridTextColumn Header="Tg" Width="auto" Binding="{Binding Ust_Tg}" />
+                    <DataGridTextColumn Header="Ir" Width="auto" MinWidth="100" Binding="{Binding Ust_Ir}" />
+                    <DataGridTextColumn Header="Tr" Width="auto" MinWidth="100" Binding="{Binding Ust_Tr}" />
+                    <DataGridTextColumn Header="Isd" Width="auto" MinWidth="100" Binding="{Binding Ust_Isd}" />
+                    <DataGridTextColumn Header="Tsd" Width="auto" MinWidth="100" Binding="{Binding Ust_Tsd}" />
+                    <DataGridTextColumn Header="Ii" Width="auto" MinWidth="100" Binding="{Binding Ust_Ii}" />
+                    <DataGridTextColumn Header="Ti" Width="auto" MinWidth="100" Binding="{Binding Ust_Ti}" />
+                    <DataGridTextColumn Header="Ig" Width="auto" MinWidth="100" Binding="{Binding Ust_Ig}" />
+                    <DataGridTextColumn Header="Tg" Width="auto" MinWidth="100" Binding="{Binding Ust_Tg}" />
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -64,6 +64,16 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Номер реле" Width="auto" Binding="{Binding IDrelay}" />
                     <DataGridTextColumn Header="Тип реле" Width="auto" Binding="{Binding TypeRelay}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <TextBlock Grid.Column="0" Grid.Row="7" Margin="1" VerticalAlignment="Center" Text="Данные SF"/>
+            <DataGrid Grid.Column="1" Grid.Row="7" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding SFList}" 
+                      AutoGenerateColumns="False" SelectedItem="{Binding SelectedSF}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Номер реле" Width="auto" Binding="{Binding IDSF}" />
+                    <DataGridTextColumn Header="Тип реле" Width="auto" Binding="{Binding TypeSF}" />
+                    
                 </DataGrid.Columns>
             </DataGrid>
 
