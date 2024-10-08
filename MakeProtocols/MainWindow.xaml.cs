@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Data.SQLite;
+using System.Windows;
+using System.Windows.Input;
 
 namespace MakeProtocols
 {
@@ -38,7 +27,7 @@ namespace MakeProtocols
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SetSource();
-            string connectionString = "Data Source = "+ Environment.CurrentDirectory + "\\protocolsBase.db; Version = 3;";
+            string connectionString = "Data Source = " + Environment.CurrentDirectory + "\\protocolsBase.db; Version = 3;";
             conn = new SQLiteConnection(connectionString);
         }
 
@@ -51,16 +40,19 @@ namespace MakeProtocols
             dgAutomats.ItemsSource = AutomatsList;
             dgRelayList.ItemsSource = RelayList;
             dgSFs.ItemsSource = SFList;
-            
+
         }
 
         private void DgAutomats_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.V && (System.Windows.Input.Keyboard.Modifiers & System.Windows.Input.ModifierKeys.Control) == System.Windows.Input.ModifierKeys.Control)
             {
-                string clipboardText = Clipboard.GetText();
-                PasteDataIntoDataGrid(clipboardText);
-                e.Handled = true;
+                if (AutomatsList.Count < 1)
+                {
+                    string clipboardText = Clipboard.GetText();
+                    PasteDataIntoDataGrid(clipboardText);
+                    e.Handled = true;
+                }
             }
         }
 
@@ -72,16 +64,41 @@ namespace MakeProtocols
             if (numRows > 0)
             {
                 // Clear the existing rows if needed
-                dgAutomats.Items.Clear();
+                AutomatsList.Clear();
 
                 // Parse and populate the DataGrid
                 for (int i = 0; i < numRows; i++)
                 {
+
                     string[] values = rows[i].Split('\t'); // Assuming tab-separated values, adjust for other delimiters
                     Automat au = new Automat();
-                    dgAutomats.Items.Add(au.Factory(values[0],values[1], values[2], values[4]);
+                    AutomatsList.Add(au.Factory
+                        (
+                        values[0],
+                        values[1],
+                        values[2],
+                        values[4],
+                        values[6],
+                        values[7],
+                        values[8],
+                        values[9],
+                        values[10],
+                        values[11],
+                        values[12],
+                        values[13],
+                        values[14],
+                        values[15],
+                        values[16],
+                        values[17]
+                        
+                        ));
                 }
             }
+        }
+
+        private void BtnClearAutomats_Click(object sender, RoutedEventArgs e)
+        {
+            AutomatsList.Clear();
         }
     }
 }
