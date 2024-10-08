@@ -8,7 +8,16 @@ namespace MakeProtocols
 {
     public class Relay
     {
-        public string IDrelay { get; set; }
-        public string TypeRelay { get; set; }
+        string idRelay;
+        string typeRelay;
+
+        public string IDrelay {
+            get { return idRelay; }
+            set { idRelay = value; }
+        }
+        public string TypeRelay {
+            get { return typeRelay; }
+            set { typeRelay = value; }
+        }
     }
 }

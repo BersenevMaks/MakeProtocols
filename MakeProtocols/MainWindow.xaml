@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MakeProtocols"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowState="Maximized" Loaded="Window_Loaded" DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
-        <Grid>
+        <Grid DataContext="MainWindow">
             <Grid.RowDefinitions>
                 <RowDefinition Height="25" />
                 <RowDefinition Height="25" />
@@ -38,8 +38,8 @@
             <TextBox Grid.Column="1" Grid.Row="4" Height="auto" Margin="2" VerticalAlignment="Center"/>
 
             <TextBlock Grid.Column="0" Grid.Row="5" Margin="1" VerticalAlignment="Center" Text="Данные по автоматам"/>
-            <DataGrid Grid.Column="1" Grid.Row="5" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding AtomatsList}" 
-                      AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto" SelectedItem="{Binding SelectedAutomat}">
+            <DataGrid Grid.Column="1" Grid.Row="5" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding Source=AutomatsList}" 
+                      AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto" SelectedItem="{Binding SelectedAutomat}" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Автомат" Width="auto" Binding="{Binding NameAutomat}" />
                     <DataGridTextColumn Header="Назначение" Width="auto" Binding="{Binding Description}" />
@@ -59,7 +59,7 @@
             </DataGrid>
 
             <TextBlock Grid.Column="0" Grid.Row="6" Margin="1" VerticalAlignment="Center" Text="Данные реле"/>
-            <DataGrid Grid.Column="1" Grid.Row="6" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding RelayList}" 
+            <DataGrid x:Name="dgRelayList" Grid.Column="1" Grid.Row="6" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding Source=RelayList}" 
                       AutoGenerateColumns="False" SelectedItem="{Binding SelectedRelay}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Номер реле" Width="auto" Binding="{Binding IDrelay}" />
@@ -68,12 +68,11 @@
             </DataGrid>
 
             <TextBlock Grid.Column="0" Grid.Row="7" Margin="1" VerticalAlignment="Center" Text="Данные SF"/>
-            <DataGrid Grid.Column="1" Grid.Row="7" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding SFList}" 
+            <DataGrid Grid.Column="1" Grid.Row="7" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding Source=SFList}" 
                       AutoGenerateColumns="False" SelectedItem="{Binding SelectedSF}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Номер реле" Width="auto" Binding="{Binding IDSF}" />
                     <DataGridTextColumn Header="Тип реле" Width="auto" Binding="{Binding TypeSF}" />
-                    
                 </DataGrid.Columns>
             </DataGrid>
 
