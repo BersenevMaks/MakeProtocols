@@ -96,10 +96,12 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="25"/>
-                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="5"/>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="25"/>
-                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="5"/>
                         <RowDefinition Height="35"/>
                     </Grid.RowDefinitions>
 
@@ -109,7 +111,9 @@
                     <TextBlock Grid.Column="0" Grid.Row="3" Text="Количество контакторов" VerticalAlignment="Center"/>
                     <TextBox x:Name="txtKontantorCount" Grid.Column="4" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                     <Separator Grid.Column="0" Grid.Row="5" Margin="15,0" />
-                    <Button x:Name="btnCreateRelayList" Grid.Column="0" Grid.Row="6" Content="Создать список реле " Click="BtnCreateRelayList_Click"/>
+                    <Button x:Name="btnCreateRelayList" Grid.Column="0" Grid.Row="6" Content="Создать список реле" Click="BtnCreateRelayList_Click"/>
+                    <Separator Grid.Column="0" Grid.Row="7" Margin="15,0" />
+                    <Button x:Name="btnSaveRelayList" Grid.Column="0" Grid.Row="8" Content="Сохранить список реле" Click="BtnSaveRelayList_Click"/>
 
                 </Grid>
                 <Grid Grid.Column="1" Grid.Row="9" Margin="5" VerticalAlignment="Stretch">

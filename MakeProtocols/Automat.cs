@@ -22,7 +22,7 @@ namespace MakeProtocols
         public string Ust_Ti { get; set; }
         public string Ust_Ig { get; set; }
         public string Ust_Tg { get; set; }
-        public ObservableCollection<Automat> Automats { get; set; }
+        public ObservableCollection<Relay> Relays { get; set; }
         public ObservableCollection<SF> SFs { get; set; }
 
         public Automat Factory(string section, string qfqs, string posnumb, string description, string type="-", string vendorNumb="-", string nominalCurrent="-", string nominalVoltage="-", string ustIi="-", string ustTi="-", string ustIr = "-", string ustTr = "-", string ustIsd = "-", string ustTsd = "-", 
