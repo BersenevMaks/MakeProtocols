@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.Windows;
@@ -260,7 +261,27 @@ namespace MakeProtocols
 
         private void BtnSaveRelayList_Click(object sender, RoutedEventArgs e)
         {
+            int index = 0;
+            
 
+            for (int i = 0; i < AutomatsList.Count; i++)
+            {
+                ObservableCollection<Relay> relays = new ObservableCollection<Relay>();
+                for (int j = 0; j <= RelayList.Count; j++)
+                {
+                    
+                    if (RelayGrid.Children[index].GetType() == typeof(CheckBox))
+                    {
+                        if ((RelayGrid.Children[index] as CheckBox).IsChecked == true)
+                        {
+                            relays.Add(RelayList[j-1]);
+                        }
+                    }
+                    index++;
+                }
+                if (relays.Count > 0)
+                    AutomatsList[i].Relays = relays;
+            }
         }
     }
 }
