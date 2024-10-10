@@ -22,6 +22,6 @@ namespace MakeProtocols
 
         public string NameRelay { get; set; }
 
-        public string Description { get; set; }
+        public string Mark { get; set; }
     }
 }

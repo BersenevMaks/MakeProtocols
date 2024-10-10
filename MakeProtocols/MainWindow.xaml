@@ -121,7 +121,7 @@
                           AutoGenerateColumns="False" SelectedItem="{Binding SelectedRelay}" Height="150">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Номер реле" Width="auto" Binding="{Binding IDrelay}" />
-                            <DataGridTextColumn Header="Тип реле" Width="auto" Binding="{Binding TypeRelay}" />
+                            <DataGridTextColumn Header="Маркировка реле" Width="auto" Binding="{Binding Mark}" />
                         </DataGrid.Columns>
                     </DataGrid>
                     <ScrollViewer Grid.Column="0" Grid.Row="1"  HorizontalScrollBarVisibility="Auto">
