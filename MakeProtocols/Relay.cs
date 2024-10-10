@@ -23,5 +23,7 @@ namespace MakeProtocols
         public string NameRelay { get; set; }
 
         public string Mark { get; set; }
+
+        public bool? IsChecked { get; set; }
     }
 }
