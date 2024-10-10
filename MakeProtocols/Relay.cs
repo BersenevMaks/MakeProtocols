@@ -19,5 +19,9 @@ namespace MakeProtocols
             get { return typeRelay; }
             set { typeRelay = value; }
         }
+
+        public string NameRelay { get; set; }
+
+        public string Description { get; set; }
     }
 }
