@@ -31,7 +31,7 @@ namespace MakeProtocols
         public List<SF> SFs { get; set; }
 
         public Automat Factory(string section, string qfqs, string posnumb, string description, string type="-", string vendorNumb="-", string nominalCurrent="-", string nominalVoltage="-", string ustIi="-", string ustTi="-", string ustIr = "-", string ustTr = "-", string ustIsd = "-", string ustTsd = "-", 
-            string ustIg = "-", string ustTg = "-")
+            string ustIg = "-", string ustTg = "-", string firstKontakorType = "", string secondKontaktorType = "")
         {
             return new Automat()
             {
@@ -51,7 +51,9 @@ namespace MakeProtocols
                 Ust_Ii = ustIi,
                 Ust_Ti = ustTi,
                 Ust_Ig = ustIg,
-                Ust_Tg = ustTg
+                Ust_Tg = ustTg,
+                FirstKontaktorType = firstKontakorType,
+                SecondKontaktorType = secondKontaktorType
             };
         }
 

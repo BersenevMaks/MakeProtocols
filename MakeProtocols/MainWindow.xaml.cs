@@ -77,7 +77,7 @@ namespace MakeProtocols
             {
                 string[] values = rows[0].Split('\t');
 
-                if (values.Length == 18)
+                if (values.Length == 20)
                 {
                     // Clear the existing rows if needed
                     AutomatsList.Clear();
@@ -91,23 +91,24 @@ namespace MakeProtocols
 
                         AutomatsList.Add(au.Factory
                             (
-                            values[0],
-                            values[1],
-                            values[2],
-                            values[4],
-                            values[6],
-                            values[7],
-                            values[8],
-                            values[9],
-                            values[10],
-                            values[11],
-                            values[12],
-                            values[13],
-                            values[14],
-                            values[15],
-                            values[16],
-                            values[17]
-
+                                values[0],
+                                values[1],
+                                values[2],
+                                values[4],
+                                values[6],
+                                values[7],
+                                values[8],
+                                values[9],
+                                values[10],
+                                values[11],
+                                values[12],
+                                values[13],
+                                values[14],
+                                values[15],
+                                values[16],
+                                values[17],
+                                values[18],
+                                values[19]
                             ));
                     }
                 }
@@ -234,7 +235,7 @@ namespace MakeProtocols
                 }
                 for (int i = 0; i < countKontaktor; i++)
                 {
-                    RelayList.Add(new Relay() { IDrelay = "КМ" + (i + 1).ToString(), TypeRelay = "КМ", NameRelay = "", FirstKontaktorType = "9",SecondKontaktorType="18" });
+                    RelayList.Add(new Relay() { IDrelay = "КМ" + (i + 1).ToString(), TypeRelay = "КМ", NameRelay = "" });
                     RelayGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
                 }
 

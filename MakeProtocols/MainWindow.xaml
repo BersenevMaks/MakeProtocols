@@ -127,7 +127,6 @@
                     
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
-                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     
                     <DataGrid Grid.Column="0" Grid.Row="0" x:Name="dgRelayList" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding Source=RelayList}" 
