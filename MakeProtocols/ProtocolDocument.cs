@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MakeProtocols
 {
-    class ProtocolDocument
+    public class ProtocolDocument
     {
         public string Modules { get; set; }
         public string Shifr { get; set; }
