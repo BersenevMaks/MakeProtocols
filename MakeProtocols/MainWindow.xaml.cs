@@ -264,8 +264,8 @@ namespace MakeProtocols
                         CheckBox checkBox = new CheckBox
                         {
                             Content = RelayList[j].NameRelay,
-                            IsChecked = true,
-                            Margin = new Thickness(7)
+                            IsChecked = false,
+                            Margin = new Thickness(7),
                         };
                         Grid.SetColumn(checkBox, j + 1);
                         Grid.SetRow(checkBox, i);
@@ -282,10 +282,8 @@ namespace MakeProtocols
         {
             int index = 0;
 
-
             for (int i = 0; i < AutomatsList.Count; i++)
             {
-                
                 for (int j = 0; j <= RelayList.Count; j++)
                 {
                     if (RelayGrid.Children[index].GetType() == typeof(CheckBox))
@@ -295,6 +293,16 @@ namespace MakeProtocols
                     index++;
                 }
             }
+        }
+
+        private void BtnCreateSFsList_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnSaveSFsList_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
