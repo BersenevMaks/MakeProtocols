@@ -112,7 +112,7 @@
                     <TextBox x:Name="txtRelayCount" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Text="2" />
                     <Separator Grid.Column="0" Grid.Row="2" Margin="15,0" />
                     <TextBlock Grid.Column="0" Grid.Row="3" Text="Количество контакторов" VerticalAlignment="Center"/>
-                    <TextBox x:Name="txtKontantorCount" Grid.Column="4" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="0"/>
+                    <CheckBox x:Name="chKontantorEnable" Grid.Column="4" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Content="Есть КМ"/>
                     <Separator Grid.Column="0" Grid.Row="5" Margin="15,0" />
                     <Button x:Name="btnCreateRelayList" Grid.Column="0" Grid.Row="6" Content="Создать список реле" Click="BtnCreateRelayList_Click"/>
                     <Separator Grid.Column="0" Grid.Row="7" Margin="15,0" />

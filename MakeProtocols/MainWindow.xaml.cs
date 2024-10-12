@@ -220,7 +220,8 @@ namespace MakeProtocols
 
             if (!int.TryParse(txtRelayCount.Text, out int countRelay)) countRelay = 0;
 
-            if (!int.TryParse(txtKontantorCount.Text, out int countKontaktor)) countKontaktor = 0;
+            int countKontaktor = 0;
+            if (chKontantorEnable.IsChecked == true) countKontaktor = 1;
 
             //Заполняем список реле для отображения в таблице
             if (countRelay > 0 || countKontaktor > 0)
@@ -235,7 +236,7 @@ namespace MakeProtocols
                 }
                 for (int i = 0; i < countKontaktor; i++)
                 {
-                    RelayList.Add(new Relay() { IDrelay = "КМ" + (i + 1).ToString(), TypeRelay = "КМ", NameRelay = "" });
+                    RelayList.Add(new Relay() { IDrelay = "КМ" + (i + 1).ToString(), TypeRelay = "КМ", NameRelay = "", Mark = $"" });
                     RelayGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
                 }
 
@@ -270,6 +271,7 @@ namespace MakeProtocols
                         Grid.SetRow(checkBox, i);
                         RelayGrid.Children.Add(checkBox);
                         RelayList[j].IsChecked = false;
+
                         AutomatsList[i].Relays.Add(RelayList[j].Clone());
                     }
                 }
