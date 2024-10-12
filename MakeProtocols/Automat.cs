@@ -30,7 +30,7 @@ namespace MakeProtocols
         public ObservableCollection<Relay> Relays { get; set; }
         public List<SF> SFs { get; set; }
 
-        public Automat Factory(string section, string qfqs, string posnumb, string description, string type="-", string vendorNumb="-", string nominalCurrent="-", string nominalVoltage="-", string ustIi="-", string ustTi="-", string ustIr = "-", string ustTr = "-", string ustIsd = "-", string ustTsd = "-", 
+        public Automat Factory(string section, string qfqs, string posnumb, string description, string type = "-", string vendorNumb = "-", string nominalCurrent = "-", string nominalVoltage = "-", string ustIi = "-", string ustTi = "-", string ustIr = "-", string ustTr = "-", string ustIsd = "-", string ustTsd = "-",
             string ustIg = "-", string ustTg = "-", string firstKontakorType = "", string secondKontaktorType = "")
         {
             return new Automat()
@@ -57,5 +57,28 @@ namespace MakeProtocols
             };
         }
 
+        public Automat Clone()
+        {
+            return new Automat()
+            {
+                Section = Section,
+                QFQS = QFQS,
+                PositionNumb = PositionNumb,
+                NameAutomat = NameAutomat,
+                Description = Description,
+                Type = Type,
+                VendorNumb = VendorNumb,
+                NominalCurrent = NominalCurrent,
+                NominalVoltage = NominalVoltage,
+                Ust_Ir = Ust_Ir,
+                Ust_Tr = Ust_Tr,
+                Ust_Isd = Ust_Isd,
+                Ust_Tsd = Ust_Tsd,
+                Ust_Ii = Ust_Ii,
+                Ust_Ti = Ust_Ti,
+                Ust_Ig = Ust_Ig,
+                Ust_Tg = Ust_Tg
+            };
+        }
     }
 }

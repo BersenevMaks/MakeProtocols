@@ -11,17 +11,18 @@
             <Grid DataContext="MainWindow">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="0" />
+                    <RowDefinition Height="0" />
+                    <RowDefinition Height="0" />
+                    <RowDefinition Height="0" />
                     <RowDefinition Height="25" />
                     <RowDefinition Height="200" />
                     <RowDefinition Height="25" />
                     <RowDefinition MinHeight="200" />
                     <RowDefinition Height="25" />
                     <RowDefinition Height="200" />
+                    <RowDefinition Height="35" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MaxWidth="200" MinWidth="100" />
@@ -32,21 +33,38 @@
                     <Label DockPanel.Dock="Left" Content="Общие данные"/>
                     <Separator/>
                 </DockPanel>
+                <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="1" Height="auto" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Grid.Row="1" Margin="1" Text="Шифр схем" VerticalAlignment="Center"/>
-                <TextBox x:Name="txtShifr" Grid.Column="1" Grid.Row="1" Height="auto" VerticalAlignment="Center" Margin="2"/>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Margin="1" Text="Модули" VerticalAlignment="Center"/>
+                    <TextBox x:Name="txtModules" Grid.Column="1" Grid.Row="0" Height="auto" VerticalAlignment="Center" Margin="2"/>
 
-                <TextBlock Grid.Column="0" Grid.Row="2" Margin="1"  VerticalAlignment="Center" Text="Номер протокола" />
-                <TextBox x:Name="txtNumbProt" Grid.Column="1" Grid.Row="2" Height="auto" Margin="2" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Margin="1" Text="Шифр схем" VerticalAlignment="Center"/>
+                    <TextBox x:Name="txtShifr" Grid.Column="1" Grid.Row="1" Height="auto" VerticalAlignment="Center" Margin="2"/>
 
-                <TextBlock Grid.Column="0" Grid.Row="3" Margin="1"  VerticalAlignment="Center" Text="Шифр карты уставок" />
-                <TextBox x:Name="txtShifrUstavok" Grid.Column="1" Grid.Row="3" Height="auto" Margin="2" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2" Margin="1"  VerticalAlignment="Center" Text="Номер протокола" />
+                    <TextBox x:Name="txtNumbProt" Grid.Column="1" Grid.Row="2" Height="auto" Margin="2" VerticalAlignment="Center"/>
 
-                <TextBlock Grid.Column="0" Grid.Row="4" Margin="1"  VerticalAlignment="Center" Text="Объект" />
-                <TextBox x:Name="txtObject" Grid.Column="1" Grid.Row="4" Height="auto" Margin="2" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="0" Grid.Row="3" Margin="1"  VerticalAlignment="Center" Text="Шифр карты уставок" />
+                    <TextBox x:Name="txtShifrUstavok" Grid.Column="1" Grid.Row="3" Height="auto" Margin="2" VerticalAlignment="Center"/>
 
-                <TextBlock Grid.Column="0" Grid.Row="5" Margin="1"  VerticalAlignment="Center" Text="Дата протокола" />
-                <TextBox Grid.Column="1" Grid.Row="5" Height="auto" Margin="2" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="0" Grid.Row="4" Margin="1"  VerticalAlignment="Center" Text="Объект" />
+                    <TextBox x:Name="txtObject" Grid.Column="1" Grid.Row="4" Height="auto" Margin="2" VerticalAlignment="Center"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="5" Margin="1"  VerticalAlignment="Center" Text="Дата протокола" />
+                    <TextBox x:Name="txtDateProtocol" Grid.Column="1" Grid.Row="5" Height="auto" Margin="2" VerticalAlignment="Center"/>
+                </Grid>
 
                 <DockPanel Height="25" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2">
                     <Label DockPanel.Dock="Left" Content="Данные по автоматам"/>
@@ -124,11 +142,11 @@
                         <RowDefinition Height="160"/>
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    
+
                     <DataGrid Grid.Column="0" Grid.Row="0" x:Name="dgRelayList" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding Source=RelayList}" 
                           AutoGenerateColumns="False" SelectedItem="{Binding SelectedRelay}" Height="150">
                         <DataGrid.Columns>
@@ -136,10 +154,10 @@
                             <DataGridTextColumn Header="Маркировка реле" Width="auto" Binding="{Binding Mark}" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    
-                    <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto">
-                        <Grid x:Name="RelayGrid" Margin="5">
-                            
+
+                    <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto" Height="auto">
+                        <Grid x:Name="RelayGrid" Margin="5" Height="auto">
+
                         </Grid>
                     </ScrollViewer>
                 </Grid>
@@ -156,22 +174,22 @@
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="35"/>
                     </Grid.RowDefinitions>
-                    
+
                     <TextBlock Grid.Column="0" Text="Количество автоматов" />
                     <TextBox x:Name="txtSFsCount" Grid.Row="1" Margin="1"/>
 
-                    <Button Grid.Row="2" x:Name="btnCreateSFsList" HorizontalAlignment="Stretch" Click="BtnCreateSFsList_Click"/>
-                    <Button Grid.Row="3" x:Name="btnSaveSFsList" HorizontalAlignment="Stretch" Click="BtnSaveSFsList_Click"/>
+                    <Button Grid.Row="3" Margin="5" x:Name="btnCreateSFsList" Content="Создать список SF"  HorizontalAlignment="Stretch" Click="BtnCreateSFsList_Click"/>
+                    <Button Grid.Row="4" Margin="5" x:Name="btnSaveSFsList" Content="Сохранить список SF" HorizontalAlignment="Stretch" Click="BtnSaveSFsList_Click"/>
 
                 </Grid>
                 <DataGrid x:Name="dgSFs"  Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="11" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding Source=SFList}" 
                       AutoGenerateColumns="False" SelectedItem="{Binding SelectedSF}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Номер реле" Width="auto" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Номер реле" Width="auto" Binding="{Binding ID}" />
                         <DataGridTextColumn Header="Тип реле" Width="auto" Binding="{Binding Type}" />
                         <DataGridTextColumn Header="Характеристика" Width="auto" Binding="{Binding Character}" />
                         <DataGridTextColumn Header="Номинальный ток" Width="auto" Binding="{Binding Inom}" />
-                        <DataGridTextColumn Header="Количество фаз" Width="auto" Binding="{Binding Phase}" />
+                        <DataGridTextColumn Header="Количество фаз" Width="auto" Binding="{Binding CountPhases}" />
                         <!--
                         <DataGridTextColumn Header="Ток перегруза" Width="auto" Binding="{Binding Ioverload}" />
                         <DataGridTextColumn Header="Время перегруза" Width="auto" Binding="{Binding Toverload}" />
@@ -180,9 +198,11 @@
                         -->
                     </DataGrid.Columns>
                 </DataGrid>
-
+                
+                <Grid Grid.Column="0" Grid.Row="12" Margin="5">
+                    <Button Grid.Column="0" Grid.Row="0" Margin="5,0" x:Name="btnMakeWord" Content="Создать файл протокола" Click="BtnMakeWord_Click" />
+                </Grid>
             </Grid>
-
         </Grid>
     </ScrollViewer>
 </Window>

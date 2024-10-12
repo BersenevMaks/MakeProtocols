@@ -27,6 +27,8 @@ namespace MakeProtocols
         public ObservableCollection<Relay> RelayList { get; set; }
         public ObservableCollection<SF> SFList { get; set; }
 
+        private WordMaker WordMaker;
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SetSource();
@@ -52,8 +54,6 @@ namespace MakeProtocols
         {
             //
         }
-
-
 
         private void DgAutomats_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -229,6 +229,8 @@ namespace MakeProtocols
                 
                 RelayGrid.ShowGridLines = true;
                 RelayGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(50) });
+
+                //Создание списка реле в Наблюдаемой коллекции
                 for (int i = 0; i < countRelay; i++)
                 {
                     RelayList.Add(new Relay() { IDrelay = "К" + (i + 1).ToString(), TypeRelay = "К", NameRelay = "", Mark = "Finder\n40.52.8.230.0000\n230 В AC" });
@@ -264,7 +266,7 @@ namespace MakeProtocols
                         CheckBox checkBox = new CheckBox
                         {
                             Content = RelayList[j].NameRelay,
-                            IsChecked = false,
+                            IsChecked = true,
                             Margin = new Thickness(7),
                         };
                         Grid.SetColumn(checkBox, j + 1);
@@ -286,6 +288,9 @@ namespace MakeProtocols
             {
                 for (int j = 0; j <= RelayList.Count; j++)
                 {
+                    if(j<RelayList.Count) AutomatsList[i].Relays.Add(RelayList[j].Clone()); //Сохранение настроенной информации в таблице в экземпляр автомата
+
+                    //Чекбокс чтобы знать используется ли реле для этого автомата
                     if (RelayGrid.Children[index].GetType() == typeof(CheckBox))
                     {
                         AutomatsList[i].Relays[j - 1].IsChecked = (RelayGrid.Children[index] as CheckBox).IsChecked;
@@ -297,12 +302,58 @@ namespace MakeProtocols
 
         private void BtnCreateSFsList_Click(object sender, RoutedEventArgs e)
         {
-
+            if (!int.TryParse(txtSFsCount.Text, out int countSFs)) countSFs = 0;
+            for (int i = 0; i <countSFs; i++)
+            {
+                SFList.Add(new SF() {
+                    ID = $"SF{i+1}",
+                    Name = "",
+                    Type = "ETIMAT 6",
+                    Character = "B",
+                    Inom = "",
+                    CountPhases = "",
+                    Ioverload = "",
+                    Toverload = "",
+                    Ito = "",
+                    Tto = ""
+                });
+            }
         }
 
         private void BtnSaveSFsList_Click(object sender, RoutedEventArgs e)
         {
+            for (int i = 0; i< AutomatsList.Count;i++)
+            {
+                AutomatsList[i].SFs = new List<SF>();
+                for (int j = 0; j<SFList.Count;j++)
+                {
+                    SFList[j].Name = AutomatsList[i].PositionNumb + SFList[j].ID;
+                    AutomatsList[i].SFs.Add(SFList[j].Clone());
+                }
+            }
+        }
 
+        private void BtnMakeWord_Click(object sender, RoutedEventArgs e)
+        {
+            WordMaker = new WordMaker(AutomatsList);
+            ProtocolDocument protocolDocument = new ProtocolDocument();
+            if (
+                !string.IsNullOrEmpty(txtModules.Text) ||
+                !string.IsNullOrEmpty(txtShifr.Text) ||
+                !string.IsNullOrEmpty(txtNumbProt.Text) ||
+                !string.IsNullOrEmpty(txtShifrUstavok.Text) ||
+                !string.IsNullOrEmpty(txtObject.Text) ||
+                !string.IsNullOrEmpty(txtDateProtocol.Text)
+                )
+            {
+                protocolDocument.Modules = txtModules.Text;
+                protocolDocument.Shifr = txtShifr.Text;
+                protocolDocument.NumbProt = txtNumbProt.Text;
+                protocolDocument.KartUstav = txtShifrUstavok.Text;
+                protocolDocument.ObjectProt = txtObject.Text;
+                protocolDocument.DateProt = txtDateProtocol.Text;
+            }
+            else MessageBox.Show("Нужно заполнить все поля из раздела \"Общие сведения\"", "Обратите внимание");
         }
     }
 }

@@ -2,11 +2,12 @@
 {
     public class SF
     {
+        public string ID { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public string Character { get; set; }
         public string Inom { get; set; }
-        public string Phase { get; set; }
+        public string CountPhases { get; set; }
         public string Ioverload { get; set; }
         public string Toverload { get; set; }
         public string Ito { get; set; }
@@ -16,11 +17,12 @@
         {
             SF sF = new SF()
             {
+                ID = ID,
                 Name = Name,
                 Type = Type,
                 Character = Character,
                 Inom = Inom,
-                Phase = Phase,
+                CountPhases = CountPhases,
                 Ioverload = Ioverload,
                 Toverload = Toverload,
                 Ito = Ito,
