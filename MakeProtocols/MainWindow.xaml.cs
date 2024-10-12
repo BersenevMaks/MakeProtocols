@@ -209,6 +209,14 @@ namespace MakeProtocols
 
         private void BtnCreateRelayList_Click(object sender, RoutedEventArgs e)
         {
+            RelayGrid.Children.Clear();
+            RelayGrid.ColumnDefinitions.Clear();
+            RelayGrid.RowDefinitions.Clear();
+            RelayGrid.Resources.Clear();
+            foreach (Automat automat in AutomatsList)
+                if(automat.Relays != null && automat.Relays.Count>0) automat.Relays.Clear();
+            RelayList.Clear();
+
             int countRelay = 0;
             int.TryParse(txtRelayCount.Text, out countRelay);
 
@@ -218,7 +226,7 @@ namespace MakeProtocols
             //Заполняем список реле для отображения в таблице
             if (countRelay > 0 || countKontaktor > 0)
             {
-                RelayGrid.Children.Clear();
+                
                 RelayGrid.ShowGridLines = true;
                 RelayGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(50) });
                 for (int i = 0; i < countRelay; i++)
@@ -228,19 +236,13 @@ namespace MakeProtocols
                 }
                 for (int i = 0; i < countKontaktor; i++)
                 {
-                    RelayList.Add(new Relay() { IDrelay = "КМ" + (i + 1).ToString(), TypeRelay = "КМ", NameRelay = "" });
+                    RelayList.Add(new Relay() { IDrelay = "КМ" + (i + 1).ToString(), TypeRelay = "КМ", NameRelay = "", FirstKontaktorType = "9",SecondKontaktorType="18" });
                     RelayGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
                 }
 
-
-                List<Relay> relays;
                 for (int i = 0; i < AutomatsList.Count; i++)
                 {
-                    relays = new List<Relay>();
-
-                    relays.Clear();
-
-                    AutomatsList[i].Relays = new List<Relay>();
+                    AutomatsList[i].Relays = new ObservableCollection<Relay>();
 
                     //создать строку Грида с наименованием автомата
                     RelayGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });

@@ -24,6 +24,10 @@ namespace MakeProtocols
 
         public string Mark { get; set; }
 
+        public string FirstKontaktorType { get; set; }
+
+        public string SecondKontaktorType { get; set; }
+
         public bool? IsChecked { get; set; }
 
         public Relay Clone()

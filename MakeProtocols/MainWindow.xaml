@@ -106,10 +106,10 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Количество реле" VerticalAlignment="Center"/>
-                    <TextBox x:Name="txtRelayCount" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Center" TextChanged="TxtRelayCount_TextChanged" />
+                    <TextBox x:Name="txtRelayCount" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Center" Text="2" />
                     <Separator Grid.Column="0" Grid.Row="2" Margin="15,0" />
                     <TextBlock Grid.Column="0" Grid.Row="3" Text="Количество контакторов" VerticalAlignment="Center"/>
-                    <TextBox x:Name="txtKontantorCount" Grid.Column="4" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                    <TextBox x:Name="txtKontantorCount" Grid.Column="4" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="0"/>
                     <Separator Grid.Column="0" Grid.Row="5" Margin="15,0" />
                     <Button x:Name="btnCreateRelayList" Grid.Column="0" Grid.Row="6" Content="Создать список реле" Click="BtnCreateRelayList_Click"/>
                     <Separator Grid.Column="0" Grid.Row="7" Margin="15,0" />
@@ -126,6 +126,8 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Номер реле" Width="auto" Binding="{Binding IDrelay}" />
                             <DataGridTextColumn Header="Маркировка реле" Width="auto" Binding="{Binding Mark}" />
+                            <DataGridTextColumn Header="1 Ток контактора" Width="auto" Binding="{Binding FirstKontaktorType}" />
+                            <DataGridTextColumn Header="2 Ток контактора" Width="auto" Binding="{Binding SecondKontaktorType}" />
                         </DataGrid.Columns>
                     </DataGrid>
                     <ScrollViewer Grid.Column="0" Grid.Row="1"  HorizontalScrollBarVisibility="Auto">
