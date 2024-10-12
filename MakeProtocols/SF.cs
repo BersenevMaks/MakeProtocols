@@ -11,5 +11,24 @@
         public string Toverload { get; set; }
         public string Ito { get; set; }
         public string Tto { get; set; }
+
+        public SF Clone()
+        {
+            SF sF = new SF()
+            {
+                Name = Name,
+                Type = Type,
+                Character = Character,
+                Inom = Inom,
+                Phase = Phase,
+                Ioverload = Ioverload,
+                Toverload = Toverload,
+                Ito = Ito,
+                Tto = Tto
+            };
+            return sF;
+        }
     }
+
+
 }

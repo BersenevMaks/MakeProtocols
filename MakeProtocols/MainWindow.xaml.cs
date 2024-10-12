@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -217,11 +218,12 @@ namespace MakeProtocols
             //Заполняем список реле для отображения в таблице
             if (countRelay > 0 || countKontaktor > 0)
             {
+                RelayGrid.Children.Clear();
                 RelayGrid.ShowGridLines = true;
                 RelayGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(50) });
                 for (int i = 0; i < countRelay; i++)
                 {
-                    RelayList.Add(new Relay() { IDrelay = "К" + (i + 1).ToString(), TypeRelay = "К", NameRelay = "" });
+                    RelayList.Add(new Relay() { IDrelay = "К" + (i + 1).ToString(), TypeRelay = "К", NameRelay = "", Mark = "Finder\n40.52.8.230.0000\n230 В AC" });
                     RelayGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
                 }
                 for (int i = 0; i < countKontaktor; i++)
@@ -231,10 +233,14 @@ namespace MakeProtocols
                 }
 
 
-
+                List<Relay> relays;
                 for (int i = 0; i < AutomatsList.Count; i++)
                 {
-                    List<Relay> relays = new List<Relay>();
+                    relays = new List<Relay>();
+
+                    relays.Clear();
+
+                    AutomatsList[i].Relays = new List<Relay>();
 
                     //создать строку Грида с наименованием автомата
                     RelayGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
@@ -259,9 +265,8 @@ namespace MakeProtocols
                         Grid.SetRow(checkBox, i);
                         RelayGrid.Children.Add(checkBox);
                         RelayList[j].IsChecked = false;
-                        relays.Add(RelayList[j]);
+                        AutomatsList[i].Relays.Add(RelayList[j].Clone());
                     }
-                    AutomatsList[i].Relays = relays;
                 }
             }
         }

@@ -25,5 +25,18 @@ namespace MakeProtocols
         public string Mark { get; set; }
 
         public bool? IsChecked { get; set; }
+
+        public Relay Clone()
+        {
+            Relay relay = new Relay
+            {
+                IDrelay = IDrelay,
+                TypeRelay = TypeRelay,
+                NameRelay = NameRelay,
+                Mark = Mark,
+                IsChecked = IsChecked
+            };
+            return relay;
+        }
     }
 }
