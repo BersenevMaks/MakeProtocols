@@ -121,6 +121,12 @@
                         <RowDefinition Height="160"/>
                         <RowDefinition />
                     </Grid.RowDefinitions>
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    
                     <DataGrid Grid.Column="0" Grid.Row="0" x:Name="dgRelayList" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding Source=RelayList}" 
                           AutoGenerateColumns="False" SelectedItem="{Binding SelectedRelay}" Height="150">
                         <DataGrid.Columns>
@@ -130,7 +136,8 @@
                             <DataGridTextColumn Header="2 Ток контактора" Width="auto" Binding="{Binding SecondKontaktorType}" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <ScrollViewer Grid.Column="0" Grid.Row="1"  HorizontalScrollBarVisibility="Auto">
+                    
+                    <ScrollViewer Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto">
                         <Grid x:Name="RelayGrid" Margin="5">
                             
                         </Grid>
