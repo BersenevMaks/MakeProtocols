@@ -217,11 +217,9 @@ namespace MakeProtocols
                 if(automat.Relays != null && automat.Relays.Count>0) automat.Relays.Clear();
             RelayList.Clear();
 
-            int countRelay = 0;
-            int.TryParse(txtRelayCount.Text, out countRelay);
+            if (!int.TryParse(txtRelayCount.Text, out int countRelay)) countRelay = 0;
 
-            int countKontaktor = 0;
-            int.TryParse(txtKontantorCount.Text, out countKontaktor);
+            if (!int.TryParse(txtKontantorCount.Text, out int countKontaktor)) countKontaktor = 0;
 
             //Заполняем список реле для отображения в таблице
             if (countRelay > 0 || countKontaktor > 0)
@@ -246,9 +244,11 @@ namespace MakeProtocols
 
                     //создать строку Грида с наименованием автомата
                     RelayGrid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-                    TextBlock textBlock = new TextBlock();
-                    textBlock.Text = AutomatsList[i].NameAutomat;
-                    textBlock.Margin = new Thickness(5);
+                    TextBlock textBlock = new TextBlock
+                    {
+                        Text = AutomatsList[i].NameAutomat,
+                        Margin = new Thickness(5)
+                    };
                     Grid.SetColumn(textBlock, 0);
                     Grid.SetRow(textBlock, i);
                     RelayGrid.Children.Add(textBlock);
@@ -259,10 +259,12 @@ namespace MakeProtocols
                         if (RelayList[j].TypeRelay == "К") RelayList[j].NameRelay = AutomatsList[i].PositionNumb + RelayList[j].IDrelay;
                         else RelayList[j].NameRelay = AutomatsList[i].Section + "КМ" + AutomatsList[i].PositionNumb;
 
-                        CheckBox checkBox = new CheckBox();
-                        checkBox.Content = RelayList[j].NameRelay;
-                        checkBox.IsChecked = true;
-                        checkBox.Margin = new Thickness(7);
+                        CheckBox checkBox = new CheckBox
+                        {
+                            Content = RelayList[j].NameRelay,
+                            IsChecked = true,
+                            Margin = new Thickness(7)
+                        };
                         Grid.SetColumn(checkBox, j + 1);
                         Grid.SetRow(checkBox, i);
                         RelayGrid.Children.Add(checkBox);
