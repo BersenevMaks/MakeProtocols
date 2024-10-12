@@ -23,6 +23,10 @@ namespace MakeProtocols
         public string Ust_Ti { get; set; }
         public string Ust_Ig { get; set; }
         public string Ust_Tg { get; set; }
+
+        public string FirstKontaktorType { get; set; }
+        public string SecondKontaktorType { get; set; }
+
         public ObservableCollection<Relay> Relays { get; set; }
         public List<SF> SFs { get; set; }
 

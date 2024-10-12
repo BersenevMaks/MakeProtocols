@@ -80,6 +80,9 @@
                             <DataGridTextColumn Header="Ti" Width="auto" MinWidth="100" Binding="{Binding Ust_Ti}" />
                             <DataGridTextColumn Header="Ig" Width="auto" MinWidth="100" Binding="{Binding Ust_Ig}" />
                             <DataGridTextColumn Header="Tg" Width="auto" MinWidth="100" Binding="{Binding Ust_Tg}" />
+
+                            <DataGridTextColumn Header="1 Ток контактора" Width="auto" Binding="{Binding FirstKontaktorType}" />
+                            <DataGridTextColumn Header="2 Ток контактора" Width="auto" Binding="{Binding SecondKontaktorType}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -132,8 +135,6 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Номер реле" Width="auto" Binding="{Binding IDrelay}" />
                             <DataGridTextColumn Header="Маркировка реле" Width="auto" Binding="{Binding Mark}" />
-                            <DataGridTextColumn Header="1 Ток контактора" Width="auto" Binding="{Binding FirstKontaktorType}" />
-                            <DataGridTextColumn Header="2 Ток контактора" Width="auto" Binding="{Binding SecondKontaktorType}" />
                         </DataGrid.Columns>
                     </DataGrid>
                     
