@@ -124,6 +124,8 @@
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="5"/>
                         <RowDefinition Height="35"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="25"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Количество реле" VerticalAlignment="Center"/>
@@ -136,6 +138,7 @@
                     <Separator Grid.Column="0" Grid.Row="7" Margin="15,0" />
                     <Button x:Name="btnSaveRelayList" Grid.Column="0" Grid.Row="8" Content="Сохранить список реле" Click="BtnSaveRelayList_Click"/>
 
+                    <TextBlock x:Name="txtIsSaveRelay" Grid.Column="0" Grid.Row="10" Text="Не сохранено" />
                 </Grid>
                 <Grid Grid.Column="1" Grid.Row="9" Margin="5" VerticalAlignment="Stretch">
                     <Grid.RowDefinitions>
@@ -173,6 +176,9 @@
                         <RowDefinition Height="15"/>
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="35"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="25"/>
+
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Column="0" Text="Количество автоматов" />
@@ -180,6 +186,8 @@
 
                     <Button Grid.Row="3" Margin="5" x:Name="btnCreateSFsList" Content="Создать список SF"  HorizontalAlignment="Stretch" Click="BtnCreateSFsList_Click"/>
                     <Button Grid.Row="4" Margin="5" x:Name="btnSaveSFsList" Content="Сохранить список SF" HorizontalAlignment="Stretch" Click="BtnSaveSFsList_Click"/>
+
+                    <TextBlock x:Name="txtIsSaveSF" Grid.Row="6" Text="Не сохранено" />
 
                 </Grid>
                 <DataGrid x:Name="dgSFs"  Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="11" Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding Source=SFList}" 

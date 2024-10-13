@@ -210,6 +210,7 @@ namespace MakeProtocols
 
         private void BtnCreateRelayList_Click(object sender, RoutedEventArgs e)
         {
+            txtIsSaveRelay.Text = "Не сохранено";
             RelayGrid.Children.Clear();
             RelayGrid.ColumnDefinitions.Clear();
             RelayGrid.RowDefinitions.Clear();
@@ -298,6 +299,7 @@ namespace MakeProtocols
                     index++;
                 }
             }
+            txtIsSaveRelay.Text = "Сохранено! Можно продолжать!";
         }
 
         private void BtnCreateSFsList_Click(object sender, RoutedEventArgs e)
@@ -318,6 +320,7 @@ namespace MakeProtocols
                     Tto = ""
                 });
             }
+            txtIsSaveSF.Text = "Не сохранено";
         }
 
         private void BtnSaveSFsList_Click(object sender, RoutedEventArgs e)
@@ -331,6 +334,7 @@ namespace MakeProtocols
                     AutomatsList[i].SFs.Add(SFList[j].Clone());
                 }
             }
+            txtIsSaveSF.Text = "Сохранено! Можно продолжать!";
         }
 
         private void BtnMakeWord_Click(object sender, RoutedEventArgs e)
@@ -354,6 +358,8 @@ namespace MakeProtocols
             }
             else MessageBox.Show("Нужно заполнить все поля из раздела \"Общие сведения\"", "Обратите внимание");
             WordMaker = new WordMaker(AutomatsList, protocolDocument);
+
+            WordMaker.CreateWordFile();
         }
     }
 }
