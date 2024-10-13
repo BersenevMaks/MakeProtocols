@@ -335,7 +335,6 @@ namespace MakeProtocols
 
         private void BtnMakeWord_Click(object sender, RoutedEventArgs e)
         {
-            WordMaker = new WordMaker(AutomatsList);
             ProtocolDocument protocolDocument = new ProtocolDocument();
             if (
                 !string.IsNullOrEmpty(txtModules.Text) ||
@@ -354,6 +353,7 @@ namespace MakeProtocols
                 protocolDocument.DateProt = txtDateProtocol.Text;
             }
             else MessageBox.Show("Нужно заполнить все поля из раздела \"Общие сведения\"", "Обратите внимание");
+            WordMaker = new WordMaker(AutomatsList, protocolDocument);
         }
     }
 }

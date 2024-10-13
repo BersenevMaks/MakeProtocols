@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Office.Interop.Word;
+using System.Text.RegularExpressions;
 
 namespace MakeProtocols
 {
@@ -14,7 +15,8 @@ namespace MakeProtocols
         ObservableCollection<Automat> Automats = new ObservableCollection<Automat>();
         ProtocolDocument protocolDocument = new ProtocolDocument();
 
-        string path = Environment.CurrentDirectory + "\\";
+        string directoryPath = Environment.CurrentDirectory + "\\";
+        string protocolPath = "";
 
         public WordMaker(ObservableCollection<Automat> automats, ProtocolDocument _protocolDocument)
         {
@@ -30,16 +32,26 @@ namespace MakeProtocols
             {
                 if (!string.IsNullOrEmpty(protocolDocument.ObjectProt))
                 {
-                    path += protocolDocument.ObjectProt + "\\";
-                    if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+                    directoryPath += protocolDocument.ObjectProt + "\\";
+                    if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
                 }
             }
 
             //Полный путь будущего файла протокола
+            Regex regex = new Regex(@"(?<=\d\d\.)\d\d(?=[Ээ])");
+            protocolPath = "№" + regex.Match(protocolDocument.Shifr).Value + " Протокол наладки модуля универсального" + protocolDocument.Shifr;
         }
 
         //Создание файла Word и общие настройки
-        
+        void CreateWordFile()
+        {
+            Application application = new Application();
+            Document document = application.Documents.Open(directoryPath + protocolPath);
+
+
+        }
+
+
         //Начало 
     }
 }
