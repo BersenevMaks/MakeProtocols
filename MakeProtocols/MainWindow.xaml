@@ -48,22 +48,22 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0" Grid.Row="0" Margin="1" Text="Модули" VerticalAlignment="Center"/>
-                    <TextBox x:Name="txtModules" Grid.Column="1" Grid.Row="0" Height="auto" VerticalAlignment="Center" Margin="2"/>
+                    <TextBox x:Name="txtModules" Grid.Column="1" Grid.Row="0" Height="auto" VerticalAlignment="Center" Margin="2" Text="М1, М2" />
 
                     <TextBlock Grid.Column="0" Grid.Row="1" Margin="1" Text="Шифр схем" VerticalAlignment="Center"/>
-                    <TextBox x:Name="txtShifr" Grid.Column="1" Grid.Row="1" Height="auto" VerticalAlignment="Center" Margin="2"/>
+                    <TextBox x:Name="txtShifr" Grid.Column="1" Grid.Row="1" Height="auto" VerticalAlignment="Center" Margin="2" Text="03.01Э3"/>
 
                     <TextBlock Grid.Column="0" Grid.Row="2" Margin="1"  VerticalAlignment="Center" Text="Номер протокола" />
-                    <TextBox x:Name="txtNumbProt" Grid.Column="1" Grid.Row="2" Height="auto" Margin="2" VerticalAlignment="Center"/>
+                    <TextBox x:Name="txtNumbProt" Grid.Column="1" Grid.Row="2" Height="auto" Margin="2" VerticalAlignment="Center" Text="1"/>
 
                     <TextBlock Grid.Column="0" Grid.Row="3" Margin="1"  VerticalAlignment="Center" Text="Шифр карты уставок" />
-                    <TextBox x:Name="txtShifrUstavok" Grid.Column="1" Grid.Row="3" Height="auto" Margin="2" VerticalAlignment="Center"/>
+                    <TextBox x:Name="txtShifrUstavok" Grid.Column="1" Grid.Row="3" Height="auto" Margin="2" VerticalAlignment="Center" Text="РР-1" />
 
-                    <TextBlock Grid.Column="0" Grid.Row="4" Margin="1"  VerticalAlignment="Center" Text="Объект" />
-                    <TextBox x:Name="txtObject" Grid.Column="1" Grid.Row="4" Height="auto" Margin="2" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="0" Grid.Row="4" Margin="1"  VerticalAlignment="Center" Text="Объект"/>
+                    <TextBox x:Name="txtObject" Grid.Column="1" Grid.Row="4" Height="auto" Margin="2" VerticalAlignment="Center"  Text="КТП" />
 
                     <TextBlock Grid.Column="0" Grid.Row="5" Margin="1"  VerticalAlignment="Center" Text="Дата протокола" />
-                    <TextBox x:Name="txtDateProtocol" Grid.Column="1" Grid.Row="5" Height="auto" Margin="2" VerticalAlignment="Center"/>
+                    <TextBox x:Name="txtDateProtocol" Grid.Column="1" Grid.Row="5" Height="auto" Margin="2" VerticalAlignment="Center" Text="12.02.2024"/>
                 </Grid>
 
                 <DockPanel Height="25" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2">
