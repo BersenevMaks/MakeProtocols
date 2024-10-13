@@ -90,6 +90,7 @@
                             <DataGridTextColumn Header="Заводской номер" Width="auto" Binding="{Binding VendorNumb}" />
                             <DataGridTextColumn Header="Номинальный ток" Width="auto" Binding="{Binding NominalCurrent}" />
                             <DataGridTextColumn Header="Номинальное напряжение" Width="auto" Binding="{Binding NominalVoltage}" />
+                            <DataGridTextColumn Header="Тип расцепителя" Width="auto" Binding="{Binding TypeBreaker}" />
                             <DataGridTextColumn Header="Ir" Width="auto" MinWidth="100" Binding="{Binding Ust_Ir}" />
                             <DataGridTextColumn Header="Tr" Width="auto" MinWidth="100" Binding="{Binding Ust_Tr}" />
                             <DataGridTextColumn Header="Isd" Width="auto" MinWidth="100" Binding="{Binding Ust_Isd}" />

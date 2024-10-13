@@ -77,7 +77,7 @@ namespace MakeProtocols
             {
                 string[] values = rows[0].Split('\t');
 
-                if (values.Length == 20)
+                if (values.Length == 21)
                 {
                     // Clear the existing rows if needed
                     AutomatsList.Clear();
@@ -88,7 +88,7 @@ namespace MakeProtocols
 
                         values = rows[i].Split('\t'); // Assuming tab-separated values, adjust for other delimiters
                         Automat au = new Automat();
-
+                        if (values[10] == "") values[10] = "Комбинированный";
                         AutomatsList.Add(au.Factory
                             (
                                 values[0],
@@ -108,7 +108,8 @@ namespace MakeProtocols
                                 values[16],
                                 values[17],
                                 values[18],
-                                values[19]
+                                values[19],
+                                values[20]
                             ));
                     }
                 }

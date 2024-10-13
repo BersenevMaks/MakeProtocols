@@ -168,25 +168,59 @@ namespace MakeProtocols
                 doc.Styles.Add(regularStyleTable_1);
 
                 Table commonAutomatsTable = section.AddTable(true);
-                orgTable.ResetCells(Automats.Count + 1, 6);
+                commonAutomatsTable.ResetCells(Automats.Count + 1, 6);
 
                 string[] Header = { @"Фидер/монтаж. символ", "Тип", "Зав. № автомата", "Ном. Ток, А", "Ном. напряж., кВ", "Тип расцепителя" };
                 for (int c = 0; c < Header.Length; c++)
                 {
-                    TableRow tr = orgTable.Rows[c];
+                    TableRow tr = commonAutomatsTable.Rows[0];
                     Paragraph p = tr.Cells[c].AddParagraph();
                     tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
                     p.Format.HorizontalAlignment = HorizontalAlignment.Left;
-                    TextRange txtRange = p.AppendText(data[c]);
-                    txtRange.ApplyStyle("regularStyleTable_1");
+                    TextRange txtRange = p.AppendText(Header[c]);
+                    p.ApplyStyle(regularStyleTable_1);
                 }
 
                 for (int r = 0; r < Automats.Count; r++)
                 {
-                    for (int c = 0; c < Header.Length; c++)
-                    {
+                    TableRow tr = commonAutomatsTable.Rows[r + 1];
 
-                    }
+                    Paragraph p = tr.Cells[0].AddParagraph();
+                    tr.Cells[0].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    TextRange txtRange = p.AppendText(Automats[r].NameAutomat);
+                    p.ApplyStyle(regularStyleTable_1);
+
+                    p = tr.Cells[1].AddParagraph();
+                    tr.Cells[1].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    txtRange = p.AppendText(Automats[r].Type);
+                    p.ApplyStyle(regularStyleTable_1);
+
+                    p = tr.Cells[2].AddParagraph();
+                    tr.Cells[2].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    txtRange = p.AppendText(Automats[r].VendorNumb);
+                    p.ApplyStyle(regularStyleTable_1);
+
+                    p = tr.Cells[3].AddParagraph();
+                    tr.Cells[3].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    txtRange = p.AppendText(Automats[r].NominalCurrent);
+                    p.ApplyStyle(regularStyleTable_1);
+
+                    p = tr.Cells[4].AddParagraph();
+                    tr.Cells[4].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    txtRange = p.AppendText(Automats[r].NominalVoltage);
+                    p.ApplyStyle(regularStyleTable_1);
+
+                    p = tr.Cells[5].AddParagraph();
+                    tr.Cells[5].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    txtRange = p.AppendText(Automats[r].TypeBreaker);
+                    p.ApplyStyle(regularStyleTable_1);
+
                 }
 
                 //Параграфы с общими данными и шифром карты уставок

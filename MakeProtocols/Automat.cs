@@ -15,6 +15,7 @@ namespace MakeProtocols
         public string VendorNumb { get; set; }
         public string NominalCurrent { get; set; }
         public string NominalVoltage { get; set; }
+        public string TypeBreaker { get;set;}
         public string Ust_Ir { get; set; }
         public string Ust_Tr { get; set; }
         public string Ust_Isd { get; set; }
@@ -30,7 +31,7 @@ namespace MakeProtocols
         public ObservableCollection<Relay> Relays { get; set; }
         public List<SF> SFs { get; set; }
 
-        public Automat Factory(string section, string qfqs, string posnumb, string description, string type = "-", string vendorNumb = "-", string nominalCurrent = "-", string nominalVoltage = "-", string ustIi = "-", string ustTi = "-", string ustIr = "-", string ustTr = "-", string ustIsd = "-", string ustTsd = "-",
+        public Automat Factory(string section, string qfqs, string posnumb, string description, string type = "-", string vendorNumb = "-", string nominalCurrent = "-", string nominalVoltage = "-", string typeBreaker = "", string ustIi = "-", string ustTi = "-", string ustIr = "-", string ustTr = "-", string ustIsd = "-", string ustTsd = "-",
             string ustIg = "-", string ustTg = "-", string firstKontakorType = "", string secondKontaktorType = "")
         {
             return new Automat()
@@ -44,6 +45,7 @@ namespace MakeProtocols
                 VendorNumb = vendorNumb,
                 NominalCurrent = nominalCurrent,
                 NominalVoltage = nominalVoltage,
+                TypeBreaker = typeBreaker,
                 Ust_Ir = ustIr,
                 Ust_Tr = ustTr,
                 Ust_Isd = ustIsd,
@@ -70,6 +72,7 @@ namespace MakeProtocols
                 VendorNumb = VendorNumb,
                 NominalCurrent = NominalCurrent,
                 NominalVoltage = NominalVoltage,
+                TypeBreaker = TypeBreaker,
                 Ust_Ir = Ust_Ir,
                 Ust_Tr = Ust_Tr,
                 Ust_Isd = Ust_Isd,
