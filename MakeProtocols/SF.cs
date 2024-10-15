@@ -2,6 +2,9 @@
 {
     public class SF
     {
+        string uSrabat = "";
+        string uVozvrat = "";
+
         public string ID { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
@@ -12,6 +15,7 @@
         public string Toverload { get; set; }
         public string Ito { get; set; }
         public string Tto { get; set; }
+
 
         public SF Clone()
         {
@@ -30,6 +34,7 @@
             };
             return sF;
         }
+
     }
 
 

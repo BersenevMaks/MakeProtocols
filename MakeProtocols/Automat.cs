@@ -47,14 +47,14 @@ namespace MakeProtocols
                 NominalCurrent = nominalCurrent,
                 NominalVoltage = nominalVoltage,
                 TypeBreaker = typeBreaker,
-                Ust_Ir = ustIr.Replace(",", "."),
-                Ust_Tr = ustTr.Replace(",", "."),
-                Ust_Isd = ustIsd.Replace(",", "."),
-                Ust_Tsd = ustTsd.Replace(",", "."),
+                Ust_Ir = ustIr,
+                Ust_Tr = ustTr,
+                Ust_Isd = ustIsd,
+                Ust_Tsd = ustTsd,
                 Ust_Ii = ustIi,
-                Ust_Ti = ustTi.Replace(",", "."),
-                Ust_Ig = ustIg.Replace(",", "."),
-                Ust_Tg = ustTg.Replace(",", "."),
+                Ust_Ti = ustTi,
+                Ust_Ig = ustIg,
+                Ust_Tg = ustTg,
                 FirstKontaktorType = firstKontakorType,
                 SecondKontaktorType = secondKontaktorType
             };
@@ -103,9 +103,17 @@ namespace MakeProtocols
                         phaseCharacteristics.Add("-"); //tsd проверки
 
                         phaseCharacteristics.Add(Ust_Ii); //Ii
-                        double Ii = Convert.ToDouble(Ust_Ii) * 1.3;
-                        phaseCharacteristics.Add(Convert.ToString(Convert.ToInt32(Math.Ceiling(Ii)))); //Ii проверки
-                        phaseCharacteristics.Add("0,02"); //ti проверки
+                        if (!string.IsNullOrEmpty(Ust_Ii) && Ust_Ii != "-")
+                        {
+                            double Ii = Convert.ToDouble(Ust_Ii) * 1.3;
+                            phaseCharacteristics.Add(Convert.ToString(Convert.ToInt32(Math.Ceiling(Ii)))); //Ii проверки
+                            phaseCharacteristics.Add("0,02"); //ti проверки
+                        }
+                        else
+                        {
+                            phaseCharacteristics.Add("-"); //Ii проверки
+                            phaseCharacteristics.Add("-"); //ti проверки
+                        }
 
                         break;
                     }
