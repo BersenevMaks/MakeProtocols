@@ -166,7 +166,7 @@ namespace MakeProtocols
                 section.AddParagraph();
 
                 //Создание автоматического списка с общими данными протокола
-                
+
                 doc.Styles.Add(regularStyleNumb_1);
 
                 data = new string[] {
@@ -192,7 +192,7 @@ namespace MakeProtocols
                 }
 
                 //Таблица данных автоматических выключателей
-                
+
                 doc.Styles.Add(regularStyleTable_1);
 
                 section.AddParagraph();
@@ -452,8 +452,70 @@ namespace MakeProtocols
                     paragraph.ApplyStyle(regularStyleNumb_1);
                 }
 
-                //Параграф про проверку автоматических выключателей
+                //Параграф про проверку реле автоматических выключателей
+                section.AddParagraph();
+                section.AddParagraph();
 
+                int countAllRelays = 0; //Подсчет всех реле у всех автоматов
+                foreach (Automat automat in Automats)
+                    countAllRelays += automat.Relays.Count;
+
+                Table RelayTable = section.AddTable(true);
+                RelayTable.ResetCells(countAllRelays + 1, 5);
+
+                Header = new string[]
+                {
+                    "Место установки",
+                    "Обозначение",
+                    "Тип",
+                    "Uср, В",
+                    "Uвозв, В"
+                };
+                for (int c = 0; c < Header.Length; c++)
+                {
+                    TableRow tr = RelayTable.Rows[0];
+                    Paragraph p = tr.Cells[c].AddParagraph();
+                    tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    TextRange txtRange = p.AppendText(Header[c]);
+                    p.ApplyStyle(regularStyleTable_1);
+                }
+
+                row = 1;
+                for (int a = 0; a < Automats.Count; a++)
+                {
+                    RelayTable.ApplyVerticalMerge(0, row, Automats[a].Relays.Count); //столбец, строка, конечная строка
+
+                    //Записывается в первый столбец первого реле его название
+                    TableRow tr = RelayTable.Rows[row];
+                    Paragraph p = tr.Cells[0].AddParagraph();
+                    tr.Cells[0].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    TextRange txtRange = p.AppendText("Релейный отсек\r" + Automats[a].NameAutomat);
+                    p.ApplyStyle(regularStyleTable_1);
+
+                    for (int rel = 0; rel < Automats[a].Relays.Count; rel++)
+                    {
+
+                        data = new string[]
+                        {
+                            Automats[a].Relays[rel].NameRelay,
+                            Automats[a].Relays[rel].Mark,
+                            Automats[a].Relays[rel].USrabat,
+                            Automats[a].Relays[rel].UVozvrat
+                        };
+                        for (int c = 0; c < data.Length; c++)
+                        {
+                            tr = RelayTable.Rows[row];
+                            p = tr.Cells[c + 1].AddParagraph();
+                            tr.Cells[c + 1].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                            p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                            txtRange = p.AppendText(data[c + 1]);
+                            p.ApplyStyle(regularStyleTable_1);
+                        }
+                        row++;
+                    }
+                }
 
                 //Таблица проверки автоматов
 

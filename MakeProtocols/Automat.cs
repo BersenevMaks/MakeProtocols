@@ -62,7 +62,7 @@ namespace MakeProtocols
 
         public Automat Clone()
         {
-            return new Automat()
+            Automat automat = new Automat()
             {
                 Section = Section,
                 QFQS = QFQS,
@@ -83,6 +83,15 @@ namespace MakeProtocols
                 Ust_Ig = Ust_Ig,
                 Ust_Tg = Ust_Tg
             };
+            automat.Relays = new ObservableCollection<Relay>();
+            automat.SFs = new List<SF>();
+            for (int r = 0; r < Relays.Count; r++)
+                automat.Relays.Add(Relays[r].Clone());
+
+            for (int sf = 0; sf < SFs.Count; sf++)
+                automat.SFs.Add(SFs[sf].Clone());
+
+            return automat;
         }
 
         public List<string> PhaseCharacteristics()

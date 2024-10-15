@@ -8,22 +8,16 @@ namespace MakeProtocols
         string uVozvrat = "";
 
         string idRelay;
-        string typeRelay;
+        string mark;
 
         public string IDrelay
         {
             get { return idRelay; }
             set { idRelay = value; }
         }
-        public string TypeRelay
-        {
-            get { return typeRelay; }
-            set { typeRelay = value; }
-        }
-
+        public string TypeRelay { get; set; }
+        
         public string NameRelay { get; set; }
-
-        public string Mark { get; set; }
 
         public bool? IsChecked { get; set; }
 
@@ -49,6 +43,20 @@ namespace MakeProtocols
             }
         }
 
+        public string KM_I1 { get; set; }
+        public string KM_I2 { get; set; }
+
+        public string Mark
+        {
+            get { return mark; }
+            set
+            {
+                if (String.IsNullOrEmpty(value) && !string.IsNullOrEmpty(KM_I1) && !string.IsNullOrEmpty(KM_I2))
+                    mark = $"Metasol\rMC - {KM_I1}a, 3p, {KM_I1} A(AC - 3),\r{KM_I2} A(AC - 1) 230 В 50 Гц";
+                else mark = value;
+            }
+        }
+
         public Relay Clone()
         {
             Relay relay = new Relay
@@ -57,7 +65,11 @@ namespace MakeProtocols
                 TypeRelay = TypeRelay,
                 NameRelay = NameRelay,
                 Mark = Mark,
-                IsChecked = IsChecked
+                IsChecked = IsChecked,
+                USrabat = USrabat,
+                UVozvrat = UVozvrat,
+                KM_I1 = KM_I1,
+                KM_I2 = KM_I2
             };
             return relay;
         }

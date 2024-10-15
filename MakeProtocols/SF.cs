@@ -2,9 +2,6 @@
 {
     public class SF
     {
-        string uSrabat = "";
-        string uVozvrat = "";
-
         public string ID { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }

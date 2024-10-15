@@ -263,7 +263,13 @@ namespace MakeProtocols
                     for (int j = 0; j < RelayList.Count; j++)
                     {
                         if (RelayList[j].TypeRelay == "К") RelayList[j].NameRelay = AutomatsList[i].PositionNumb + RelayList[j].IDrelay;
-                        else RelayList[j].NameRelay = AutomatsList[i].Section + "КМ" + AutomatsList[i].PositionNumb;
+                        else
+                        {
+                            RelayList[j].NameRelay = AutomatsList[i].Section + "КМ" + AutomatsList[i].PositionNumb;
+                            RelayList[j].KM_I1 = AutomatsList[i].FirstKontaktorType;
+                            RelayList[j].KM_I2 = AutomatsList[i].SecondKontaktorType.Replace("\r","");
+                            RelayList[j].Mark = "";
+                        }
 
                         CheckBox checkBox = new CheckBox
                         {
@@ -290,15 +296,18 @@ namespace MakeProtocols
             {
                 for (int j = 0; j <= RelayList.Count; j++)
                 {
-                    if(j<RelayList.Count) AutomatsList[i].Relays.Add(RelayList[j].Clone()); //Сохранение настроенной информации в таблице в экземпляр автомата
 
                     //Чекбокс чтобы знать используется ли реле для этого автомата
                     if (RelayGrid.Children[index].GetType() == typeof(CheckBox))
                     {
-                        AutomatsList[i].Relays[j - 1].IsChecked = (RelayGrid.Children[index] as CheckBox).IsChecked;
+                        if ((RelayGrid.Children[index] as CheckBox).IsChecked == true)
+                        {
+                            AutomatsList[i].Relays[j - 1].IsChecked = true;
+                        }
                     }
                     index++;
                 }
+
             }
             txtIsSaveRelay.Text = "Сохранено! Можно продолжать!";
         }
