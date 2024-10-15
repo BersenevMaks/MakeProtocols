@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace MakeProtocols
@@ -31,7 +32,7 @@ namespace MakeProtocols
         public ObservableCollection<Relay> Relays { get; set; }
         public List<SF> SFs { get; set; }
 
-        public Automat Factory(string section, string qfqs, string posnumb, string description, string type = "-", string vendorNumb = "-", string nominalCurrent = "-", string nominalVoltage = "-", string typeBreaker = "", string ustIi = "-", string ustTi = "-", string ustIr = "-", string ustTr = "-", string ustIsd = "-", string ustTsd = "-",
+        public Automat Factory(string section, string qfqs, string posnumb, string description, string type = "-", string vendorNumb = "-", string nominalCurrent = "-", string nominalVoltage = "-", string typeBreaker = "", string ustIr = "-", string ustTr = "-", string ustIsd = "-", string ustTsd = "-", string ustIi = "-", string ustTi = "-",
             string ustIg = "-", string ustTg = "-", string firstKontakorType = "", string secondKontaktorType = "")
         {
             return new Automat()
@@ -46,14 +47,14 @@ namespace MakeProtocols
                 NominalCurrent = nominalCurrent,
                 NominalVoltage = nominalVoltage,
                 TypeBreaker = typeBreaker,
-                Ust_Ir = ustIr,
-                Ust_Tr = ustTr,
-                Ust_Isd = ustIsd,
-                Ust_Tsd = ustTsd,
+                Ust_Ir = ustIr.Replace(",", "."),
+                Ust_Tr = ustTr.Replace(",", "."),
+                Ust_Isd = ustIsd.Replace(",", "."),
+                Ust_Tsd = ustTsd.Replace(",", "."),
                 Ust_Ii = ustIi,
-                Ust_Ti = ustTi,
-                Ust_Ig = ustIg,
-                Ust_Tg = ustTg,
+                Ust_Ti = ustTi.Replace(",", "."),
+                Ust_Ig = ustIg.Replace(",", "."),
+                Ust_Tg = ustTg.Replace(",", "."),
                 FirstKontaktorType = firstKontakorType,
                 SecondKontaktorType = secondKontaktorType
             };
@@ -82,6 +83,35 @@ namespace MakeProtocols
                 Ust_Ig = Ust_Ig,
                 Ust_Tg = Ust_Tg
             };
+        }
+
+        public List<string> PhaseCharacteristics()
+        {
+            List<string> phaseCharacteristics = new List<string>();
+
+            switch (TypeBreaker)
+            {
+                case "FTU":
+                case "Комбинированный":
+                    {
+                        phaseCharacteristics.Add("-"); //Ir
+                        phaseCharacteristics.Add("-"); //Ir проверки
+                        phaseCharacteristics.Add("-"); //tr проверки
+
+                        phaseCharacteristics.Add("-"); //Isd
+                        phaseCharacteristics.Add("-"); //Isd проверки
+                        phaseCharacteristics.Add("-"); //tsd проверки
+
+                        phaseCharacteristics.Add(Ust_Ii); //Ii
+                        double Ii = Convert.ToDouble(Ust_Ii) * 1.3;
+                        phaseCharacteristics.Add(Convert.ToString(Convert.ToInt32(Math.Ceiling(Ii)))); //Ii проверки
+                        phaseCharacteristics.Add("0,02"); //ti проверки
+
+                        break;
+                    }
+            }
+
+            return phaseCharacteristics;
         }
     }
 }
