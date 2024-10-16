@@ -347,6 +347,7 @@ namespace MakeProtocols
                     p.Format.HorizontalAlignment = HorizontalAlignment.Center;
                     TextRange txtRange = p.AppendText(Header[c]);
                     p.ApplyStyle(regularStyleTable_2);
+                    tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
                 }
                 int row = 0;
                 for (int r = 0; r < Automats.Count; r++)
@@ -358,6 +359,8 @@ namespace MakeProtocols
                     ispytanAutomatsTable.ApplyVerticalMerge(2, row + 2, row + 2 + 2);
 
                     TableRow tr = ispytanAutomatsTable.Rows[row + 2];
+                    tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
+                    tr.HeightType = TableRowHeightType.AtLeast;
                     List<string> characteristics = Automats[r].PhaseCharacteristics();
                     string[] rowData = {
                         Automats[r].NameAutomat + "\r" + Automats[r].Description,
@@ -384,6 +387,8 @@ namespace MakeProtocols
                     }
 
                     tr = ispytanAutomatsTable.Rows[row + 2 + 1];
+                    tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
+                    tr.HeightType = TableRowHeightType.AtLeast;
                     characteristics = Automats[r].PhaseCharacteristics();
                     rowData = new string[] {
                         "",
@@ -410,6 +415,8 @@ namespace MakeProtocols
                     }
 
                     tr = ispytanAutomatsTable.Rows[row + 2 + 2];
+                    tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
+                    tr.HeightType = TableRowHeightType.AtLeast;
                     characteristics = Automats[r].PhaseCharacteristics();
                     rowData = new string[] {
                         "",
@@ -439,6 +446,7 @@ namespace MakeProtocols
                 }
 
                 //Текст про проверку изоляции и проверку реле
+                section.AddParagraph();
                 data = new string[] {
                     "8.2.3.Проверено сопротивление изоляции автоматических выключателей мегаомметром на 1000В в сборе.Сопротивление изоляции проверялось между полюсами выключателя, между полюсами и землей и сопротивление главных контактов выключателя на разрыв. Наименьшее значение сопротивления изоляции составило 5000Мом.Норма > 1 МОм.",
                                        "\r",
@@ -453,8 +461,6 @@ namespace MakeProtocols
                 }
 
                 //Параграф про проверку реле автоматических выключателей
-                section.AddParagraph();
-                section.AddParagraph();
 
                 int countAllRelays = 0; //Подсчет всех реле у всех автоматов
                 foreach (Automat automat in Automats)
@@ -484,12 +490,13 @@ namespace MakeProtocols
                 row = 1;
                 for (int a = 0; a < Automats.Count; a++)
                 {
-                    RelayTable.ApplyVerticalMerge(0, row, Automats[a].Relays.Count); //столбец, строка, конечная строка
+                    RelayTable.ApplyVerticalMerge(0, row, row + Automats[a].Relays.Count - 1); //столбец, строка, конечная строка
 
                     //Записывается в первый столбец первого реле его название
                     TableRow tr = RelayTable.Rows[row];
                     Paragraph p = tr.Cells[0].AddParagraph();
                     tr.Cells[0].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    tr.Height = 0.93f;
                     p.Format.HorizontalAlignment = HorizontalAlignment.Center;
                     TextRange txtRange = p.AppendText("Релейный отсек\r" + Automats[a].NameAutomat);
                     p.ApplyStyle(regularStyleTable_1);
@@ -510,14 +517,119 @@ namespace MakeProtocols
                             p = tr.Cells[c + 1].AddParagraph();
                             tr.Cells[c + 1].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
                             p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                            txtRange = p.AppendText(data[c + 1]);
+                            txtRange = p.AppendText(data[c]);
                             p.ApplyStyle(regularStyleTable_1);
                         }
                         row++;
                     }
                 }
+                RelayTable.AutoFit(AutoFitBehaviorType.AutoFitToContents);
+                RelayTable.AutoFit(AutoFitBehaviorType.AutoFitToWindow);
+                section.AddParagraph();
+                section.AddParagraph();
 
                 //Таблица проверки автоматов
+                int countAllPhasesForCounterRow = 0;
+
+                foreach (Automat automat in Automats)
+                    foreach (SF sF in automat.SFs)
+                        countAllPhasesForCounterRow += Convert.ToInt32(sF.CountPhases);
+
+                Table SfTable = section.AddTable(true);
+                SfTable.ResetCells(countAllPhasesForCounterRow + 2, 11);
+                for (int i = 0; i < 6; i++)
+                    SfTable.ApplyVerticalMerge(i, 0, 1);
+                SfTable.ApplyVerticalMerge(10, 0, 1);
+                SfTable.ApplyHorizontalMerge(0, 6, 7);
+                SfTable.ApplyHorizontalMerge(0, 8, 9);
+
+                Header = new string[]
+                {
+                    "Место\rустановки",
+                    "Обозн.\rпо схеме",
+                    "Тип",
+                    "Хар-\rка",
+                    "Ном.\rток In,\rА",
+                    "Фаза",
+                    "Перегруз",
+                    "",
+                    "ТО",
+                    "",
+                    "Заключение"
+                };
+                for (int c = 0; c < Header.Length; c++)
+                {
+                    TableRow tr = SfTable.Rows[0];
+                    Paragraph p = tr.Cells[c].AddParagraph();
+                    tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    TextRange txtRange = p.AppendText(Header[c]);
+                    p.ApplyStyle(regularStyleTable_1);
+                }
+                Header = new string[]
+                {
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "Ток\rпрог-ки,\rА",
+                    "Время,\rс",
+                    "Ток\rпрог-\rки, А",
+                    "Время,\rс",
+                    ""
+                };
+                for (int c = 0; c < Header.Length; c++)
+                {
+                    TableRow tr = SfTable.Rows[0];
+                    Paragraph p = tr.Cells[c].AddParagraph();
+                    tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    TextRange txtRange = p.AppendText(Header[c]);
+                    p.ApplyStyle(regularStyleTable_1);
+                }
+
+                row = 2;
+                foreach(Automat automat in Automats)
+                {
+                    TableRow tr = SfTable.Rows[row];
+                    Paragraph p = tr.Cells[0].AddParagraph();
+                    tr.Cells[0].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    TextRange txtRange = p.AppendText(automat.NameAutomat);
+                    p.ApplyStyle(regularStyleTable_1);
+
+                    int countPhasesForCounterRow = 0;
+                    foreach (SF sF in automat.SFs)
+                        countPhasesForCounterRow += Convert.ToInt32(sF.CountPhases);
+
+                    SfTable.ApplyVerticalMerge(0, row, row + countPhasesForCounterRow - 1);
+
+                    for (int s = 0; s < automat.SFs.Count; s++)
+                    {
+                        SF sF = automat.SFs[s];
+                        data = new string[] {
+                            sF.Name,
+                            sF.Type,
+                            sF.Character,
+                            sF.Inom
+                        };
+                        for (int c = 1; c < data.Length; c++)
+                        {
+                            tr = SfTable.Rows[row];
+                            p = tr.Cells[c].AddParagraph();
+                            tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                            p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                            txtRange = p.AppendText(data[c-1]);
+                            p.ApplyStyle(regularStyleTable_1);
+
+                            SfTable.ApplyVerticalMerge(c, row, row + Convert.ToInt32(sF.CountPhases) - 1);
+                        }
+
+
+                    }
+                }
 
                 //Текст Проверка действия и состояния схемы
 
@@ -537,8 +649,14 @@ namespace MakeProtocols
                 System.Windows.MessageBox.Show("Ошибка при создании файла Word в классе WordMaker\n\n" + ex.ToString(), "Ошибка!");
             }
 
-            doc.SaveToFile(directoryPath + protocolName);
-
+            try
+            {
+                doc.SaveToFile(directoryPath + protocolName);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Ошибка при сохранении, возможно файл уже открыт\n\n" + ex.ToString(), "Ошибка");
+            }
             doc.Dispose();
 
             System.Windows.MessageBox.Show("Создание файла успешно завершено!", "Выполнено!");

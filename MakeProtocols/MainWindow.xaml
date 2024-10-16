@@ -183,7 +183,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Column="0" Text="Количество автоматов" />
-                    <TextBox x:Name="txtSFsCount" Grid.Row="1" Margin="1"/>
+                    <TextBox x:Name="txtSFsCount" Grid.Row="1" Margin="1" Text="3"/>
 
                     <Button Grid.Row="3" Margin="5" x:Name="btnCreateSFsList" Content="Создать список SF"  HorizontalAlignment="Stretch" Click="BtnCreateSFsList_Click"/>
                     <Button Grid.Row="4" Margin="5" x:Name="btnSaveSFsList" Content="Сохранить список SF" HorizontalAlignment="Stretch" Click="BtnSaveSFsList_Click"/>

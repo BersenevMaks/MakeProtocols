@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -22,6 +21,7 @@ namespace MakeProtocols
 
         SQLiteConnection conn;
 
+        Random random = new Random();
 
         public ObservableCollection<Automat> AutomatsList { get; set; }
         public ObservableCollection<Relay> RelayList { get; set; }
@@ -217,7 +217,7 @@ namespace MakeProtocols
             RelayGrid.RowDefinitions.Clear();
             RelayGrid.Resources.Clear();
             foreach (Automat automat in AutomatsList)
-                if(automat.Relays != null && automat.Relays.Count>0) automat.Relays.Clear();
+                if (automat.Relays != null && automat.Relays.Count > 0) automat.Relays.Clear();
             RelayList.Clear();
 
             if (!int.TryParse(txtRelayCount.Text, out int countRelay)) countRelay = 0;
@@ -228,7 +228,7 @@ namespace MakeProtocols
             //Заполняем список реле для отображения в таблице
             if (countRelay > 0 || countKontaktor > 0)
             {
-                
+
                 RelayGrid.ShowGridLines = true;
                 RelayGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(50) });
 
@@ -240,7 +240,7 @@ namespace MakeProtocols
                 }
                 for (int i = 0; i < countKontaktor; i++)
                 {
-                    RelayList.Add(new Relay() { IDrelay = "КМ" + (i + 1).ToString(), TypeRelay = "КМ", NameRelay = "", Mark = $"" });
+                    RelayList.Add(new Relay() { IDrelay = "КМ" + (i + 1).ToString(), TypeRelay = "КМ", NameRelay = "", Mark = $"", USrabat = "", UVozvrat = "" });
                     RelayGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
                 }
 
@@ -262,15 +262,19 @@ namespace MakeProtocols
                     //создать колонки Грида с чекбоксами реле для 
                     for (int j = 0; j < RelayList.Count; j++)
                     {
-                        if (RelayList[j].TypeRelay == "К") RelayList[j].NameRelay = AutomatsList[i].PositionNumb + RelayList[j].IDrelay;
+                        if (RelayList[j].TypeRelay == "К")
+                        {
+                            RelayList[j].NameRelay = AutomatsList[i].PositionNumb + RelayList[j].IDrelay;
+                        }
                         else
                         {
                             RelayList[j].NameRelay = AutomatsList[i].Section + "КМ" + AutomatsList[i].PositionNumb;
                             RelayList[j].KM_I1 = AutomatsList[i].FirstKontaktorType;
-                            RelayList[j].KM_I2 = AutomatsList[i].SecondKontaktorType.Replace("\r","");
+                            RelayList[j].KM_I2 = AutomatsList[i].SecondKontaktorType.Replace("\r", "");
                             RelayList[j].Mark = "";
                         }
-
+                        //RelayList[j].USrabat = "";
+                        //RelayList[j].UVozvrat = "";
                         CheckBox checkBox = new CheckBox
                         {
                             Content = RelayList[j].NameRelay,
@@ -307,7 +311,8 @@ namespace MakeProtocols
                     }
                     index++;
                 }
-
+                for (int r = 0; r < AutomatsList[i].Relays.Count; r++)
+                    AutomatsList[i].Relays[r].Generate(random);
             }
             txtIsSaveRelay.Text = "Сохранено! Можно продолжать!";
         }
@@ -315,10 +320,13 @@ namespace MakeProtocols
         private void BtnCreateSFsList_Click(object sender, RoutedEventArgs e)
         {
             if (!int.TryParse(txtSFsCount.Text, out int countSFs)) countSFs = 0;
-            for (int i = 0; i <countSFs; i++)
+            SFList.Clear();
+
+            for (int i = 0; i < countSFs; i++)
             {
-                SFList.Add(new SF() {
-                    ID = $"SF{i+1}",
+                SFList.Add(new SF()
+                {
+                    ID = $"SF{i + 1}",
                     Name = "",
                     Type = "ETIMAT 6",
                     Character = "B",
@@ -335,10 +343,10 @@ namespace MakeProtocols
 
         private void BtnSaveSFsList_Click(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i< AutomatsList.Count;i++)
+            for (int i = 0; i < AutomatsList.Count; i++)
             {
                 AutomatsList[i].SFs = new List<SF>();
-                for (int j = 0; j<SFList.Count;j++)
+                for (int j = 0; j < SFList.Count; j++)
                 {
                     SFList[j].Name = AutomatsList[i].PositionNumb + SFList[j].ID;
                     AutomatsList[i].SFs.Add(SFList[j].Clone());

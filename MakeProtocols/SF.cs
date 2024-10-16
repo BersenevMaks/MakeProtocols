@@ -1,4 +1,6 @@
-﻿namespace MakeProtocols
+﻿using System;
+
+namespace MakeProtocols
 {
     public class SF
     {
@@ -32,6 +34,24 @@
             return sF;
         }
 
+        public void Generate(Random random)
+        {
+            if(int.TryParse(Inom, out int In)) In = 9999;
+
+            switch (Character)
+            {
+                case "B":
+                    {
+                        Ioverload = "2,5In=" + Convert.ToInt32(In * 2.5);
+                        break;
+                    }
+                case "C":
+                    {
+                        Ioverload = "4In=" + Convert.ToInt32(In * 4);
+                        break;
+                    }
+            }
+        }
     }
 
 
