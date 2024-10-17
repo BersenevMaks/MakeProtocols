@@ -52,6 +52,8 @@ namespace MakeProtocols
             Document doc = new Document();
             Section section = doc.AddSection();
 
+            int row = 0;
+
             try
             {
                 //Наборы стилей
@@ -242,6 +244,11 @@ namespace MakeProtocols
                     "8.2.2.Испытание автоматических выключателей.",
                     "Уставки выставлены в соответствии с Таблицей уставок защит АВ МСС, шифр " + protocolDocument.KartUstav + "."
                 };
+                if(Automats[0].QFQS == "QS")
+                    data = new string[]{
+                    "8.2.Проверка автоматических выключателей",
+                    "8.2.1.Автоматические выключатели осмотрены, не имеют механических повреждений.Визуально проверено состояние монтажа, целостность комплектующих изделий. Также проверена затяжка силовых контактных соединений. Состояние автоматических выключателей соответствует заводским нормам."
+                };
                 for (int i = 0; i < data.Length; i++)
                 {
                     paragraph = section.AddParagraph();
@@ -250,41 +257,43 @@ namespace MakeProtocols
                 }
 
                 //Таблица с уставками для автоматов
-                section.AddParagraph();
-                Table ustavAutomatsTable = section.AddTable(true);
-                ustavAutomatsTable.ResetCells(Automats.Count + 2, 10);
-                ustavAutomatsTable.ApplyHorizontalMerge(0, 2, 3); //строка, столбец, конечный столбец
-                ustavAutomatsTable.ApplyHorizontalMerge(0, 4, 5);
-                ustavAutomatsTable.ApplyHorizontalMerge(0, 6, 7);
-                ustavAutomatsTable.ApplyHorizontalMerge(0, 8, 9);
-
-                ustavAutomatsTable.ApplyVerticalMerge(0, 0, 1);  //столбец, строка, конечная строка
-                ustavAutomatsTable.ApplyVerticalMerge(1, 0, 1);
-
-                Header = new string[] { @"Фидер", "Iном, А", "Ir", "", "Isd", "", "Ii", "", "Ig", "" }; //первая строка заголовока
-                for (int c = 0; c < Header.Length; c++)
+                if (Automats[0].QFQS == "QF")
                 {
-                    TableRow tr = ustavAutomatsTable.Rows[0];
-                    Paragraph p = tr.Cells[c].AddParagraph();
-                    tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                    TextRange txtRange = p.AppendText(Header[c]);
-                    p.ApplyStyle(regularStyleTable_1);
-                }
-                Header = new string[] { @"", "", "Ir, А", "tr, с", "Isd, А", "tsd, с", "Ii, А", "ti, с", "Ig, А", "tg, с" }; //вторая строка заголовка
-                for (int c = 0; c < Header.Length; c++)
-                {
-                    TableRow tr = ustavAutomatsTable.Rows[1];
-                    Paragraph p = tr.Cells[c].AddParagraph();
-                    tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                    TextRange txtRange = p.AppendText(Header[c]);
-                    p.ApplyStyle(regularStyleTable_1);
-                }
+                    section.AddParagraph();
+                    Table ustavAutomatsTable = section.AddTable(true);
+                    ustavAutomatsTable.ResetCells(Automats.Count + 2, 10);
+                    ustavAutomatsTable.ApplyHorizontalMerge(0, 2, 3); //строка, столбец, конечный столбец
+                    ustavAutomatsTable.ApplyHorizontalMerge(0, 4, 5);
+                    ustavAutomatsTable.ApplyHorizontalMerge(0, 6, 7);
+                    ustavAutomatsTable.ApplyHorizontalMerge(0, 8, 9);
 
-                for (int r = 0; r < Automats.Count; r++)
-                {
-                    string[] rowData = {
+                    ustavAutomatsTable.ApplyVerticalMerge(0, 0, 1);  //столбец, строка, конечная строка
+                    ustavAutomatsTable.ApplyVerticalMerge(1, 0, 1);
+
+                    Header = new string[] { @"Фидер", "Iном, А", "Ir", "", "Isd", "", "Ii", "", "Ig", "" }; //первая строка заголовока
+                    for (int c = 0; c < Header.Length; c++)
+                    {
+                        TableRow tr = ustavAutomatsTable.Rows[0];
+                        Paragraph p = tr.Cells[c].AddParagraph();
+                        tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                        p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                        TextRange txtRange = p.AppendText(Header[c]);
+                        p.ApplyStyle(regularStyleTable_1);
+                    }
+                    Header = new string[] { @"", "", "Ir, А", "tr, с", "Isd, А", "tsd, с", "Ii, А", "ti, с", "Ig, А", "tg, с" }; //вторая строка заголовка
+                    for (int c = 0; c < Header.Length; c++)
+                    {
+                        TableRow tr = ustavAutomatsTable.Rows[1];
+                        Paragraph p = tr.Cells[c].AddParagraph();
+                        tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                        p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                        TextRange txtRange = p.AppendText(Header[c]);
+                        p.ApplyStyle(regularStyleTable_1);
+                    }
+
+                    for (int r = 0; r < Automats.Count; r++)
+                    {
+                        string[] rowData = {
                         Automats[r].NameAutomat + "\r" + Automats[r].Description,
                         Automats[r].NominalCurrent,
                         Automats[r].Ust_Ir,
@@ -296,75 +305,75 @@ namespace MakeProtocols
                         Automats[r].Ust_Ig,
                         Automats[r].Ust_Tg
                     };
-                    TableRow tr = ustavAutomatsTable.Rows[r + 2];
-                    Paragraph p;
-                    TextRange txtRange;
-                    for (int c = 0; c < rowData.Length; c++)
+                        TableRow tr = ustavAutomatsTable.Rows[r + 2];
+                        Paragraph p;
+                        TextRange txtRange;
+                        for (int c = 0; c < rowData.Length; c++)
+                        {
+                            p = tr.Cells[c].AddParagraph();
+                            tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                            p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                            txtRange = p.AppendText(rowData[c]);
+                            p.ApplyStyle(regularStyleTable_1);
+                        }
+                    }
+
+                    //Таблица Результаты испытаний 
+                    section.AddParagraph();
+
+                    paragraph = section.AddParagraph();
+                    paragraph.AppendText("Результаты испытаний:");
+                    paragraph.ApplyStyle(regularTextStyle_1);
+
+                    Table ispytanAutomatsTable = section.AddTable(true);
+                    ispytanAutomatsTable.ResetCells(Automats.Count * 3 + 2, 12);
+                    ispytanAutomatsTable.ApplyHorizontalMerge(0, 3, 5); //строка, столбец, конечный столбец
+                    ispytanAutomatsTable.ApplyHorizontalMerge(0, 6, 8);
+                    ispytanAutomatsTable.ApplyHorizontalMerge(0, 9, 11);
+
+                    ispytanAutomatsTable.ApplyVerticalMerge(0, 0, 1);  //столбец, строка, конечная строка
+                    ispytanAutomatsTable.ApplyVerticalMerge(1, 0, 1);
+                    ispytanAutomatsTable.ApplyVerticalMerge(2, 0, 1);
+
+
+
+
+                    Header = new string[] { @"Фидер", "Фаза", "Ток ном, А", "Ir", "", "", "Isd", "", "", "Ii", "", "" }; //первая строка заголовока
+
+                    for (int c = 0; c < Header.Length; c++)
                     {
-                        p = tr.Cells[c].AddParagraph();
+                        TableRow tr = ispytanAutomatsTable.Rows[0];
+                        Paragraph p = tr.Cells[c].AddParagraph();
                         tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
                         p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                        txtRange = p.AppendText(rowData[c]);
-                        p.ApplyStyle(regularStyleTable_1);
+                        TextRange txtRange = p.AppendText(Header[c]);
+                        p.ApplyStyle(regularStyleTable_2);
                     }
-                }
+                    Header = new string[] { @"", "", "", "Ток уставки, А", "Ток проверки, А", "Время сраб-ия, с", "Ток уставки, А", "Ток проверки, А", "Время сраб-ия, с", "Ток уставки, А", "Ток проверки, А", "Время сраб-ия, с" }; //вторая строка заголовка
+                    for (int c = 0; c < Header.Length; c++)
+                    {
+                        TableRow tr = ispytanAutomatsTable.Rows[1];
+                        Paragraph p = tr.Cells[c].AddParagraph();
+                        tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                        p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                        TextRange txtRange = p.AppendText(Header[c]);
+                        p.ApplyStyle(regularStyleTable_2);
+                        tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
+                    }
+                    row = 0;
+                    for (int r = 0; r < Automats.Count; r++)
+                    {
+                        Paragraph p;
+                        TextRange txtRange;
 
-                //Таблица Результаты испытаний 
-                section.AddParagraph();
+                        ispytanAutomatsTable.ApplyVerticalMerge(0, row + 2, row + 2 + 2);
+                        ispytanAutomatsTable.ApplyVerticalMerge(2, row + 2, row + 2 + 2);
 
-                paragraph = section.AddParagraph();
-                paragraph.AppendText("Результаты испытаний:");
-                paragraph.ApplyStyle(regularTextStyle_1);
-
-                Table ispytanAutomatsTable = section.AddTable(true);
-                ispytanAutomatsTable.ResetCells(Automats.Count * 3 + 2, 12);
-                ispytanAutomatsTable.ApplyHorizontalMerge(0, 3, 5); //строка, столбец, конечный столбец
-                ispytanAutomatsTable.ApplyHorizontalMerge(0, 6, 8);
-                ispytanAutomatsTable.ApplyHorizontalMerge(0, 9, 11);
-
-                ispytanAutomatsTable.ApplyVerticalMerge(0, 0, 1);  //столбец, строка, конечная строка
-                ispytanAutomatsTable.ApplyVerticalMerge(1, 0, 1);
-                ispytanAutomatsTable.ApplyVerticalMerge(2, 0, 1);
-
-
-
-
-                Header = new string[] { @"Фидер", "Фаза", "Ток ном, А", "Ir", "", "", "Isd", "", "", "Ii", "", "" }; //первая строка заголовока
-
-                for (int c = 0; c < Header.Length; c++)
-                {
-                    TableRow tr = ispytanAutomatsTable.Rows[0];
-                    Paragraph p = tr.Cells[c].AddParagraph();
-                    tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                    TextRange txtRange = p.AppendText(Header[c]);
-                    p.ApplyStyle(regularStyleTable_2);
-                }
-                Header = new string[] { @"", "", "", "Ток уставки, А", "Ток проверки, А", "Время сраб-ия, с", "Ток уставки, А", "Ток проверки, А", "Время сраб-ия, с", "Ток уставки, А", "Ток проверки, А", "Время сраб-ия, с" }; //вторая строка заголовка
-                for (int c = 0; c < Header.Length; c++)
-                {
-                    TableRow tr = ispytanAutomatsTable.Rows[1];
-                    Paragraph p = tr.Cells[c].AddParagraph();
-                    tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                    TextRange txtRange = p.AppendText(Header[c]);
-                    p.ApplyStyle(regularStyleTable_2);
-                    tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
-                }
-                int row = 0;
-                for (int r = 0; r < Automats.Count; r++)
-                {
-                    Paragraph p;
-                    TextRange txtRange;
-
-                    ispytanAutomatsTable.ApplyVerticalMerge(0, row + 2, row + 2 + 2);
-                    ispytanAutomatsTable.ApplyVerticalMerge(2, row + 2, row + 2 + 2);
-
-                    TableRow tr = ispytanAutomatsTable.Rows[row + 2];
-                    tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
-                    tr.HeightType = TableRowHeightType.AtLeast;
-                    List<string> characteristics = Automats[r].PhaseCharacteristics();
-                    string[] rowData = {
+                        TableRow tr = ispytanAutomatsTable.Rows[row + 2];
+                        tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
+                        tr.HeightType = TableRowHeightType.AtLeast;
+                        List<string> characteristics = Automats[r].PhaseCharacteristics();
+                        string[] rowData = {
                         Automats[r].NameAutomat + "\r" + Automats[r].Description,
                         "A",
                         Automats[r].NominalCurrent,
@@ -379,20 +388,20 @@ namespace MakeProtocols
                         characteristics[8]
                     };
 
-                    for (int c = 0; c < rowData.Length; c++)
-                    {
-                        p = tr.Cells[c].AddParagraph();
-                        tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                        p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                        txtRange = p.AppendText(rowData[c]);
-                        p.ApplyStyle(regularStyleTable_2);
-                    }
+                        for (int c = 0; c < rowData.Length; c++)
+                        {
+                            p = tr.Cells[c].AddParagraph();
+                            tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                            p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                            txtRange = p.AppendText(rowData[c]);
+                            p.ApplyStyle(regularStyleTable_2);
+                        }
 
-                    tr = ispytanAutomatsTable.Rows[row + 2 + 1];
-                    tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
-                    tr.HeightType = TableRowHeightType.AtLeast;
-                    characteristics = Automats[r].PhaseCharacteristics();
-                    rowData = new string[] {
+                        tr = ispytanAutomatsTable.Rows[row + 2 + 1];
+                        tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
+                        tr.HeightType = TableRowHeightType.AtLeast;
+                        characteristics = Automats[r].PhaseCharacteristics();
+                        rowData = new string[] {
                         "",
                         "B",
                         "",
@@ -407,20 +416,20 @@ namespace MakeProtocols
                         characteristics[8]
                     };
 
-                    for (int c = 0; c < rowData.Length; c++)
-                    {
-                        p = tr.Cells[c].AddParagraph();
-                        tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                        p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                        txtRange = p.AppendText(rowData[c]);
-                        p.ApplyStyle(regularStyleTable_2);
-                    }
+                        for (int c = 0; c < rowData.Length; c++)
+                        {
+                            p = tr.Cells[c].AddParagraph();
+                            tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                            p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                            txtRange = p.AppendText(rowData[c]);
+                            p.ApplyStyle(regularStyleTable_2);
+                        }
 
-                    tr = ispytanAutomatsTable.Rows[row + 2 + 2];
-                    tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
-                    tr.HeightType = TableRowHeightType.AtLeast;
-                    characteristics = Automats[r].PhaseCharacteristics();
-                    rowData = new string[] {
+                        tr = ispytanAutomatsTable.Rows[row + 2 + 2];
+                        tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
+                        tr.HeightType = TableRowHeightType.AtLeast;
+                        characteristics = Automats[r].PhaseCharacteristics();
+                        rowData = new string[] {
                         "",
                         "C",
                         "",
@@ -435,22 +444,27 @@ namespace MakeProtocols
                         characteristics[8]
                     };
 
-                    for (int c = 0; c < rowData.Length; c++)
-                    {
-                        p = tr.Cells[c].AddParagraph();
-                        tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                        p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                        txtRange = p.AppendText(rowData[c]);
-                        p.ApplyStyle(regularStyleTable_2);
-                    }
+                        for (int c = 0; c < rowData.Length; c++)
+                        {
+                            p = tr.Cells[c].AddParagraph();
+                            tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                            p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                            txtRange = p.AppendText(rowData[c]);
+                            p.ApplyStyle(regularStyleTable_2);
+                        }
 
-                    row += 3; //пропускаем две строки, т.к. они уже заполнены
+                        row += 3; //пропускаем две строки, т.к. они уже заполнены
+                    }
                 }
 
                 //Текст про проверку изоляции и проверку реле
                 section.AddParagraph();
+
+                string punkt = "8.2.3. ";
+                if (Automats[0].QFQS == "QS")
+                    punkt = "8.2.2. ";
                 data = new string[] {
-                    "8.2.3.Проверено сопротивление изоляции автоматических выключателей мегаомметром на 1000В в сборе.Сопротивление изоляции проверялось между полюсами выключателя, между полюсами и землей и сопротивление главных контактов выключателя на разрыв. Наименьшее значение сопротивления изоляции составило 5000Мом.Норма > 1 МОм.",
+                    $"{punkt} Проверено сопротивление изоляции автоматических выключателей мегаомметром на 1000В в сборе.Сопротивление изоляции проверялось между полюсами выключателя, между полюсами и землей и сопротивление главных контактов выключателя на разрыв. Наименьшее значение сопротивления изоляции составило 5000Мом.Норма > 1 МОм.",
                                        "\r",
                     "8.3.Проверка промежуточных реле, контакторов и автоматических выключателей в составе модулей унифицированных.",
                     "Проверка реле и контакторов в модулях " + protocolDocument.Modules + "."
