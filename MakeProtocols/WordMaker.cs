@@ -47,7 +47,7 @@ namespace MakeProtocols
         }
 
         //Создание файла Word и общие настройки
-        public void CreateWordFile()
+        public void CreateWordFile(Random random)
         {
             Document doc = new Document();
             Section section = doc.AddSection();
@@ -168,7 +168,8 @@ namespace MakeProtocols
                 //Создание автоматического списка с общими данными протокола
 
                 doc.Styles.Add(regularStyleNumb_1);
-
+                string strQFQS = "    8.1.1. Данные автоматических выключателей";
+                if (Automats[0].QFQS == "QS") strQFQS = "    8.1.1. Данные предохранителей";
                 data = new string[] {
                     "1.  Протокол касается только объекта, подвергнутого измерениям.",
                     "2.  Протокол оформлен в соответствии с требованиями ГОСТ Р 50571.16-2007.",
@@ -181,8 +182,7 @@ namespace MakeProtocols
                     "    Номинальное напряжение 0,4 кВ",
                     "8.  Испытание оборудования",
                     "    8.1. Паспортные данные оборудования",
-                    "    8.1.1. Данные автоматических выключателей",
-
+                    "    8.1.1. Данные автоматических выключателей"
                 };
                 for (int i = 0; i < data.Length; i++)
                 {
@@ -200,6 +200,8 @@ namespace MakeProtocols
                 commonAutomatsTable.ResetCells(Automats.Count + 1, 6);
 
                 string[] Header = { @"Фидер/монтаж. символ", "Тип", "Зав. № автомата", "Ном. Ток, А", "Ном. напряж., кВ", "Тип расцепителя" };
+                if(Automats[0].QFQS == "QS")
+                    Header = new string[] { @"Фидер/монтаж. символ", "Тип", "Зав. № автомата", "Ном. Ток, А", "Ном. напряж., кВ", "Тип расцепителя" };
                 for (int c = 0; c < Header.Length; c++)
                 {
                     TableRow tr = commonAutomatsTable.Rows[0];
@@ -529,6 +531,11 @@ namespace MakeProtocols
                 section.AddParagraph();
 
                 //Таблица проверки автоматов
+                paragraph = section.AddParagraph();
+                paragraph.AppendText($"Проверка автоматических выключателей в модулях {protocolDocument.Modules}.");
+                paragraph.ApplyStyle(regularStyleNumb_1);
+
+
                 int countAllPhasesForCounterRow = 0;
 
                 foreach (Automat automat in Automats)
@@ -582,7 +589,7 @@ namespace MakeProtocols
                 };
                 for (int c = 0; c < Header.Length; c++)
                 {
-                    TableRow tr = SfTable.Rows[0];
+                    TableRow tr = SfTable.Rows[1];
                     Paragraph p = tr.Cells[c].AddParagraph();
                     tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
                     p.Format.HorizontalAlignment = HorizontalAlignment.Center;
@@ -591,7 +598,7 @@ namespace MakeProtocols
                 }
 
                 row = 2;
-                foreach(Automat automat in Automats)
+                foreach (Automat automat in Automats)
                 {
                     TableRow tr = SfTable.Rows[row];
                     Paragraph p = tr.Cells[0].AddParagraph();
@@ -615,33 +622,197 @@ namespace MakeProtocols
                             sF.Character,
                             sF.Inom
                         };
-                        for (int c = 1; c < data.Length; c++)
+                        for (int c = 1; c <= data.Length; c++)
                         {
                             tr = SfTable.Rows[row];
                             p = tr.Cells[c].AddParagraph();
                             tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
                             p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                            txtRange = p.AppendText(data[c-1]);
+                            txtRange = p.AppendText(data[c - 1]);
                             p.ApplyStyle(regularStyleTable_1);
 
                             SfTable.ApplyVerticalMerge(c, row, row + Convert.ToInt32(sF.CountPhases) - 1);
                         }
 
-
+                        for (int numberOfPhase = 0; numberOfPhase < Convert.ToInt32(sF.CountPhases); numberOfPhase++)
+                        {
+                            string PhaseName = "-";
+                            if (Convert.ToInt32(sF.CountPhases) > 1) PhaseName = "L" + (numberOfPhase + 1);
+                            sF.Generate(random);
+                            data = new string[] {
+                                PhaseName,
+                                sF.Ioverload,
+                                sF.Toverload,
+                                sF.Ito,
+                                sF.Tto,
+                                "Годен"
+                            };
+                            for (int c = 5; c < data.Length + 5; c++)
+                            {
+                                tr = SfTable.Rows[row];
+                                p = tr.Cells[c].AddParagraph();
+                                tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                                p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                                txtRange = p.AppendText(data[c - 5]);
+                                p.ApplyStyle(regularStyleTable_1);
+                            }
+                            row++;
+                        }
                     }
                 }
 
                 //Текст Проверка действия и состояния схемы
+                data = new string[] {
+                    "9.  Проверка действия и состояния схемы.\r",
+                    $"9.1. Смонтированная схема соответствует черт. {protocolDocument.Shifr}",
+                    "9.2. Изоляция цепей в сборе замерена мегаомметром с исключенными элементами, для которых испытания не применяются."
+                };
+                foreach (string s in data)
+                {
+                    paragraph = section.AddParagraph();
+                    paragraph.AppendText(s);
+                    paragraph.ApplyStyle(regularStyleNumb_1);
+                }
 
                 // таблица Проверка изоляции
+                Table IzolatTable = section.AddTable(true);
+                IzolatTable.ResetCells(2, 4);
+
+                Header = new string[]
+                {
+                    "Наименование цепей",
+                    "Напряжение\rмегаомметра, В",
+                    "Измер. сопр-ие,\rМом",
+                    "Норм. значение,\rМОм"
+                };
+                for (int c = 0; c < Header.Length; c++)
+                {
+                    TableRow tr = IzolatTable.Rows[0];
+                    Paragraph p = tr.Cells[c].AddParagraph();
+                    tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    TextRange txtRange = p.AppendText(Header[c]);
+                    p.ApplyStyle(regularStyleTable_1);
+                }
+                Header = new string[]
+                {
+                    "Цепи управления",
+                    "1000",
+                    "1000",
+                    @"> 0,5"
+                };
+                for (int c = 0; c < Header.Length; c++)
+                {
+                    TableRow tr = IzolatTable.Rows[1];
+                    Paragraph p = tr.Cells[c].AddParagraph();
+                    tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    TextRange txtRange = p.AppendText(Header[c]);
+                    p.ApplyStyle(regularStyleTable_1);
+                }
 
                 //Текст про испытание повышенным напряжением 
-
-                //Текст применение испытательного оборудования
+                data = new string[] {
+                    "9.3. Испытание повышенным напряжением частоты 50 Гц.",
+                    "Цепи релейной защиты, автоматики и других вторичных цепей со всеми присоединенными аппаратами (катушки приводов, автоматы, магнитные пускатели, контакторы, реле, приборы и т.п.) испытаны напряжением 1000В. Продолжительность приложения испытательного напряжения составляет 1 минуту.",
+                    "",
+                    "9.4. Проверена правильность функционирования полностью собранных схем управления, автоматики и сигнализации при напряжении оперативного тока номинальным и 80% от номинального.",
+                    "",
+                    "10. Перечень применяемого испытательного оборудования и средств измерений:"
+                };
+                foreach (string s in data)
+                {
+                    paragraph = section.AddParagraph();
+                    paragraph.AppendText(s);
+                    paragraph.ApplyStyle(regularStyleNumb_1);
+                }
 
                 //таблица испытательного оборудования
+                Table ToolsTable = section.AddTable(true);
+                ToolsTable.ResetCells(6, 8);
+                ToolsTable.ApplyVerticalMerge(0, 0, 1);
+                ToolsTable.ApplyVerticalMerge(1, 0, 1);
+                ToolsTable.ApplyVerticalMerge(2, 0, 1);
+                ToolsTable.ApplyVerticalMerge(7, 0, 1);
+                ToolsTable.ApplyHorizontalMerge(0, 3, 4);
+                ToolsTable.ApplyHorizontalMerge(0, 5, 6);
 
+                Header = new string[]
+                {
+                    "№\rп\\п",
+                    "Наименование и\rТип прибора",
+                    "Заводской\rномер",
+                    "",
+                    "Метрологические\rхарактеристики",
+                    "",
+                    "Дата поверки",
+                    @"№ аттестата\r(свидете-\rльства)"
+                };
+                for (int c = 0; c < Header.Length; c++)
+                {
+                    TableRow tr = ToolsTable.Rows[0];
+                    Paragraph p = tr.Cells[c].AddParagraph();
+                    tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    TextRange txtRange = p.AppendText(Header[c]);
+                    p.ApplyStyle(regularStyleTable_1);
+                }
+                Header = new string[]
+                {
+                    "",
+                    "",
+                    "",
+                    "Диапазон\rизмерения",
+                    "Класс\rточности",
+                    "Последняя",
+                    "Очередная",
+                    ""
+                };
+                for (int c = 0; c < Header.Length; c++)
+                {
+                    TableRow tr = ToolsTable.Rows[1];
+                    Paragraph p = tr.Cells[c].AddParagraph();
+                    tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                    p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                    TextRange txtRange = p.AppendText(Header[c]);
+                    p.ApplyStyle(regularStyleTable_1);
+                }
+                string[][] dataTable =
+                {
+                    new string[] {"1", "Мегаомметр\rЕ6-32", "20191.23", "1кОм – \r300 ГОм", "1,5", "23.11.2023", "22.11.2025", @"№ С-ВИЯ/23-\r11-\r2023/297010817"},
+                    new string[] {"2", "Устройство\rпроверки\rРЗиА «Ретом-\r21»", "1146", "-", "2,5%", "07.02.2024", "06.02.2026", @"№ С-ДЭН/07-\r02-\r2024/315451350"},
+                    new string[] {"3", "Комплект\rнагрузочный\rРТ-2048-12", "6149", "-", "-", "03.10.2023", "02.10.2025",   @"№ С-СП/03-10-\r2023/283527446"},
+                    new string[] {"4", "Цифровой\rмультиметр\rRGK CM - 40", "2370093", "-", "-", "13.12.2023", "12.12.2025", @"№С-ДРШ/13-\r12-\r2023/301441211"}
+                };
+                for (int r = 0; r < dataTable.Length; r++)
+                {
+                    TableRow tr = ToolsTable.Rows[r + 2];
+                    for (int c = 0; c < dataTable[r].Length; c++)
+                    {
+                        Paragraph p = tr.Cells[c].AddParagraph();
+                        tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                        p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                        TextRange txtRange = p.AppendText(dataTable[r][c]);
+                        p.ApplyStyle(regularStyleTable_1);
+                    }
+                }
+                section.AddParagraph();
                 //Текст заключение и кто выполнил проверку
+                data = new string[] {
+                "Заключение: Данные измерений и испытаний соответствуют нормам НТД.Оборудование пригодно к эксплуатации.",
+                "\t\tПроверку произвели:",
+                "",
+                "\t\t\t\tЗам.нач.ЭТЛ _______________________   Королев С.Ю.",
+                "",
+                "\t\t\t\tНачальник ЭТЛ _____________________ Цепик Н.Н.",
+                ""
+                };
+                foreach (string s in data)
+                {
+                    paragraph = section.AddParagraph();
+                    paragraph.AppendText(s);
+                    paragraph.ApplyStyle(regularStyleNumb_1);
+                }
             }
 
             catch (Exception ex)

@@ -29,6 +29,9 @@ namespace MakeProtocols
 
         private WordMaker WordMaker;
 
+        bool isSavedRelay = false;
+        bool isSavedSF = false;
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SetSource();
@@ -350,6 +353,7 @@ namespace MakeProtocols
                 {
                     SFList[j].Name = AutomatsList[i].PositionNumb + SFList[j].ID;
                     AutomatsList[i].SFs.Add(SFList[j].Clone());
+                    AutomatsList[i].SFs[j].Generate(random);
                 }
             }
             txtIsSaveSF.Text = "Сохранено! Можно продолжать!";
@@ -357,6 +361,7 @@ namespace MakeProtocols
 
         private void BtnMakeWord_Click(object sender, RoutedEventArgs e)
         {
+
             ProtocolDocument protocolDocument = new ProtocolDocument();
             if (
                 !string.IsNullOrEmpty(txtModules.Text) ||
@@ -364,7 +369,9 @@ namespace MakeProtocols
                 !string.IsNullOrEmpty(txtNumbProt.Text) ||
                 !string.IsNullOrEmpty(txtShifrUstavok.Text) ||
                 !string.IsNullOrEmpty(txtObject.Text) ||
-                !string.IsNullOrEmpty(txtDateProtocol.Text)
+                !string.IsNullOrEmpty(txtDateProtocol.Text) ||
+                !isSavedRelay ||
+                !isSavedSF
                 )
             {
                 protocolDocument.Modules = txtModules.Text;
@@ -374,10 +381,10 @@ namespace MakeProtocols
                 protocolDocument.ObjectProt = txtObject.Text;
                 protocolDocument.DateProt = txtDateProtocol.Text;
             }
-            else MessageBox.Show("Нужно заполнить все поля из раздела \"Общие сведения\"", "Обратите внимание");
+            else MessageBox.Show("Нужно заполнить все поля из раздела \"Общие сведения\"\nСохранить списки реле и SF", "Обратите внимание");
             WordMaker = new WordMaker(AutomatsList, protocolDocument);
 
-            WordMaker.CreateWordFile();
+            WordMaker.CreateWordFile(random);
         }
     }
 }

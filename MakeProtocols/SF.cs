@@ -36,21 +36,25 @@ namespace MakeProtocols
 
         public void Generate(Random random)
         {
-            if(int.TryParse(Inom, out int In)) In = 9999;
+            if(!double.TryParse(Inom, out double In)) In = 9999;
 
             switch (Character)
             {
                 case "B":
                     {
-                        Ioverload = "2,5In=" + Convert.ToInt32(In * 2.5);
+                        Ioverload = ("2,5In=" + Convert.ToDouble(In * 2.5)).Replace(".", ",");
+                        Toverload = Convert.ToString(random.Next(2010, 2298) / 100.00).Replace(".",",");
                         break;
                     }
                 case "C":
                     {
-                        Ioverload = "4In=" + Convert.ToInt32(In * 4);
+                        Ioverload = ("4In=" + Convert.ToInt32(In * 4)).Replace(".", ",");
+                        Toverload = Convert.ToString(random.Next(657, 849) / 100.00).Replace(".", ",");
                         break;
                     }
             }
+            Ito = Convert.ToString(Convert.ToInt32(Inom) * 10).Replace(".", ",");
+            Tto = "0,02";
         }
     }
 
