@@ -17,7 +17,7 @@ namespace MakeProtocols
         ObservableCollection<Automat> Automats = new ObservableCollection<Automat>();
         ProtocolDocument protocolDocument = new ProtocolDocument();
 
-        const double pointsForConvert = 28.328611898;
+        const double pointsForConvert = 28.328611898; //Константа для пересчета из сантиметров в поинты ворда.
 
         string directoryPath = Environment.CurrentDirectory + "\\";
         string protocolName = "";
@@ -184,7 +184,7 @@ namespace MakeProtocols
                     "    Номинальное напряжение 0,4 кВ",
                     "8.  Испытание оборудования",
                     "    8.1. Паспортные данные оборудования",
-                    "    8.1.1. Данные автоматических выключателей"
+                    strQFQS
                 };
                 for (int i = 0; i < data.Length; i++)
                 {
