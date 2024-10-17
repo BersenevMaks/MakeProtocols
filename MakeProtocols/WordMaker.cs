@@ -372,7 +372,7 @@ namespace MakeProtocols
                         TableRow tr = ispytanAutomatsTable.Rows[row + 2];
                         tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
                         tr.HeightType = TableRowHeightType.AtLeast;
-                        List<string> characteristics = Automats[r].PhaseCharacteristics();
+                        List<string> characteristics = Automats[r].PhaseCharacteristics(random);
                         string[] rowData = {
                         Automats[r].NameAutomat + "\r" + Automats[r].Description,
                         "A",
@@ -400,7 +400,7 @@ namespace MakeProtocols
                         tr = ispytanAutomatsTable.Rows[row + 2 + 1];
                         tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
                         tr.HeightType = TableRowHeightType.AtLeast;
-                        characteristics = Automats[r].PhaseCharacteristics();
+                        characteristics = Automats[r].PhaseCharacteristics(random);
                         rowData = new string[] {
                         "",
                         "B",
@@ -428,7 +428,7 @@ namespace MakeProtocols
                         tr = ispytanAutomatsTable.Rows[row + 2 + 2];
                         tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
                         tr.HeightType = TableRowHeightType.AtLeast;
-                        characteristics = Automats[r].PhaseCharacteristics();
+                        characteristics = Automats[r].PhaseCharacteristics(random);
                         rowData = new string[] {
                         "",
                         "C",

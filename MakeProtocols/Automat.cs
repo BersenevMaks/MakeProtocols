@@ -94,7 +94,7 @@ namespace MakeProtocols
             return automat;
         }
 
-        public List<string> PhaseCharacteristics()
+        public List<string> PhaseCharacteristics(Random random)
         {
             List<string> phaseCharacteristics = new List<string>();
 
@@ -111,6 +111,49 @@ namespace MakeProtocols
                         phaseCharacteristics.Add("-"); //Isd проверки
                         phaseCharacteristics.Add("-"); //tsd проверки
 
+                        phaseCharacteristics.Add(Ust_Ii); //Ii
+                        if (!string.IsNullOrEmpty(Ust_Ii) && Ust_Ii != "-")
+                        {
+                            double Ii = Convert.ToDouble(Ust_Ii) * 1.3;
+                            phaseCharacteristics.Add(Convert.ToString(Convert.ToInt32(Math.Ceiling(Ii)))); //Ii проверки
+                            phaseCharacteristics.Add("0,02"); //ti проверки
+                        }
+                        else
+                        {
+                            phaseCharacteristics.Add("-"); //Ii проверки
+                            phaseCharacteristics.Add("-"); //ti проверки
+                        }
+
+                        break;
+                    }
+                case "ETS23":
+                    {
+                        phaseCharacteristics.Add(Ust_Ir); //Ir
+                        if (!string.IsNullOrEmpty(Ust_Ir) && Ust_Ir != "-")
+                        {
+                            double Ir = Convert.ToDouble(Ust_Ir) * 1.4;
+                            phaseCharacteristics.Add(Convert.ToString(Convert.ToInt32(Math.Ceiling(Ir)))); //Ir проверки
+                            phaseCharacteristics.Add(Convert.ToString(random.Next(201,239))); //tr проверки
+                        }
+                        else
+                        {
+                            phaseCharacteristics.Add("-"); //Ir проверки
+                            phaseCharacteristics.Add("-"); //tr проверки
+                        }
+
+                        phaseCharacteristics.Add(Ust_Isd); //Isd
+                        if(!string.IsNullOrEmpty(Ust_Isd) && Ust_Isd != "-")
+                        {
+                            double Isd = Convert.ToDouble(Ust_Isd) * 1.3;
+                            phaseCharacteristics.Add(Convert.ToString(Convert.ToInt32(Math.Ceiling(Isd)))); //Isd проверки
+                            phaseCharacteristics.Add(Convert.ToString(Math.Ceiling(random.Next(909,1099)*Convert.ToDouble(Ust_Tsd)/10.0)/100.0)); //tsd проверки
+                        }
+                        else
+                        {
+                            phaseCharacteristics.Add("-"); //Isd проверки
+                            phaseCharacteristics.Add("-"); //tsd проверки
+                        }
+                        
                         phaseCharacteristics.Add(Ust_Ii); //Ii
                         if (!string.IsNullOrEmpty(Ust_Ii) && Ust_Ii != "-")
                         {
