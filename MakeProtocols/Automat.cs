@@ -100,12 +100,22 @@ namespace MakeProtocols
 
             switch (TypeBreaker)
             {
-                case "FTU":
+                case "MTU":
+                case "EXP":
                 case "Комбинированный":
                     {
-                        phaseCharacteristics.Add("-"); //Ir
-                        phaseCharacteristics.Add("-"); //Ir проверки
-                        phaseCharacteristics.Add("-"); //tr проверки
+                        phaseCharacteristics.Add(Ust_Ir); //Ir
+                        if (!string.IsNullOrEmpty(Ust_Ir) && Ust_Ir != "-")
+                        {
+                            double Ir = Convert.ToDouble(Ust_Ir) * 1.4;
+                            phaseCharacteristics.Add(Convert.ToString(Convert.ToInt32(Math.Ceiling(Ir)))); //Ir проверки
+                            phaseCharacteristics.Add(Convert.ToString(random.Next(201, 239)/10)); //tr проверки
+                        }
+                        else
+                        {
+                            phaseCharacteristics.Add("-"); //Ir проверки
+                            phaseCharacteristics.Add("-"); //tr проверки
+                        }
 
                         phaseCharacteristics.Add("-"); //Isd
                         phaseCharacteristics.Add("-"); //Isd проверки
@@ -126,14 +136,48 @@ namespace MakeProtocols
 
                         break;
                     }
+                case "FTU":
+                    {
+                        phaseCharacteristics.Add("-"); //Ir
+                        phaseCharacteristics.Add("-"); //Ir проверки
+                        phaseCharacteristics.Add("-"); //tr проверки
+
+                        phaseCharacteristics.Add("-"); //Isd
+                        phaseCharacteristics.Add("-"); //Isd проверки
+                        phaseCharacteristics.Add("-"); //tsd проверки
+
+                        Ust_Ii = Convert.ToString(Convert.ToDouble(NominalCurrent) * 10.0);
+                        phaseCharacteristics.Add(Ust_Ii); //Ii
+                        if (!string.IsNullOrEmpty(Ust_Ii) && Ust_Ii != "-")
+                        {
+                            double Ii = Convert.ToDouble(Ust_Ii) * 1.3;
+                            phaseCharacteristics.Add(Convert.ToString(Convert.ToInt32(Math.Ceiling(Ii)))); //Ii проверки
+                            phaseCharacteristics.Add("0,02"); //ti проверки
+                        }
+                        else
+                        {
+                            phaseCharacteristics.Add("-"); //Ii проверки
+                            phaseCharacteristics.Add("-"); //ti проверки
+                        }
+
+                        break;
+
+                    }
                 case "ETS23":
+                case "ETS33":
                     {
                         phaseCharacteristics.Add(Ust_Ir); //Ir
                         if (!string.IsNullOrEmpty(Ust_Ir) && Ust_Ir != "-")
                         {
-                            double Ir = Convert.ToDouble(Ust_Ir) * 1.4;
+                            double Ir = Convert.ToDouble(Ust_Ir) * 2.0;
+                            if(Ir>=Convert.ToDouble(Ust_Isd))
+                                Ir = Convert.ToDouble(Ust_Ir) * 1.4;
                             phaseCharacteristics.Add(Convert.ToString(Convert.ToInt32(Math.Ceiling(Ir)))); //Ir проверки
-                            phaseCharacteristics.Add(Convert.ToString(random.Next(201,239))); //tr проверки
+
+                            if (Ir >= Convert.ToDouble(Ust_Isd))
+                                phaseCharacteristics.Add(Convert.ToString(random.Next(201,239))); //tr проверки
+                            else
+                                phaseCharacteristics.Add(Convert.ToString(random.Next(52, 64))); //tr проверки
                         }
                         else
                         {
@@ -158,6 +202,50 @@ namespace MakeProtocols
                         if (!string.IsNullOrEmpty(Ust_Ii) && Ust_Ii != "-")
                         {
                             double Ii = Convert.ToDouble(Ust_Ii) * 1.3;
+                            phaseCharacteristics.Add(Convert.ToString(Convert.ToInt32(Math.Ceiling(Ii)))); //Ii проверки
+                            phaseCharacteristics.Add("0,02"); //ti проверки
+                        }
+                        else
+                        {
+                            phaseCharacteristics.Add("-"); //Ii проверки
+                            phaseCharacteristics.Add("-"); //ti проверки
+                        }
+
+                        break;
+                    }
+                case "AG0U0AL":
+                    {
+                        phaseCharacteristics.Add(Ust_Ir); //Ir
+                        if (!string.IsNullOrEmpty(Ust_Ir) && Ust_Ir != "-")
+                        {
+                            double Ir = Convert.ToDouble(Ust_Ir) * 1.5;
+                            phaseCharacteristics.Add(Convert.ToString(Convert.ToInt32(Math.Ceiling(Ir)))); //Ir проверки
+                            phaseCharacteristics.Add(Convert.ToString(random.Next(43, 56))); //tr проверки
+                        }
+                        else
+                        {
+                            phaseCharacteristics.Add("-"); //Ir проверки
+                            phaseCharacteristics.Add("-"); //tr проверки
+                        }
+
+                        phaseCharacteristics.Add(Ust_Isd); //Isd
+                        if (!string.IsNullOrEmpty(Ust_Isd) && Ust_Isd != "-")
+                        {
+                            double Isd = Convert.ToDouble(Ust_Isd) * 1.05;
+                            phaseCharacteristics.Add(Convert.ToString(Convert.ToInt32(Math.Ceiling(Isd)))); //Isd проверки
+                            phaseCharacteristics.Add(Convert.ToString(Math.Ceiling(random.Next(909, 1099) * Convert.ToDouble(Ust_Tsd) / 10.0) / 100.0)); //tsd проверки
+                        }
+                        else
+                        {
+                            phaseCharacteristics.Add("-"); //Isd проверки
+                            phaseCharacteristics.Add("-"); //tsd проверки
+                        }
+
+                        phaseCharacteristics.Add(Ust_Ii); //Ii
+                        if (!string.IsNullOrEmpty(Ust_Ii) && Ust_Ii != "-")
+                        {
+                            double Ii = Convert.ToDouble(Ust_Ii) * 1.3;
+                            if (Ii > 11500.00) Ii = 11500;
                             phaseCharacteristics.Add(Convert.ToString(Convert.ToInt32(Math.Ceiling(Ii)))); //Ii проверки
                             phaseCharacteristics.Add("0,02"); //ti проверки
                         }

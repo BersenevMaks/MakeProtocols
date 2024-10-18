@@ -298,26 +298,30 @@ namespace MakeProtocols
         private void BtnSaveRelayList_Click(object sender, RoutedEventArgs e)
         {
             int index = 0;
-
-            for (int i = 0; i < AutomatsList.Count; i++)
+            try
             {
-                for (int j = 0; j <= RelayList.Count; j++)
+                for (int i = 0; i < AutomatsList.Count; i++)
                 {
-
-                    //Чекбокс чтобы знать используется ли реле для этого автомата
-                    if (RelayGrid.Children[index].GetType() == typeof(CheckBox))
+                    for (int j = 0; j <= RelayList.Count; j++)
                     {
-                        if ((RelayGrid.Children[index] as CheckBox).IsChecked == true)
+
+                        //Чекбокс чтобы знать используется ли реле для этого автомата
+                        if (RelayGrid.Children[index].GetType() == typeof(CheckBox))
                         {
-                            AutomatsList[i].Relays[j - 1].IsChecked = true;
+                            if ((RelayGrid.Children[index] as CheckBox).IsChecked == true)
+                            {
+                                AutomatsList[i].Relays[j - 1].IsChecked = true;
+                            }
                         }
+                        index++;
                     }
-                    index++;
+                    for (int r = 0; r < AutomatsList[i].Relays.Count; r++)
+                        AutomatsList[i].Relays[r].Generate(random);
                 }
-                for (int r = 0; r < AutomatsList[i].Relays.Count; r++)
-                    AutomatsList[i].Relays[r].Generate(random);
+                txtIsSaveRelay.Text = "Сохранено! Можно продолжать!";
             }
-            txtIsSaveRelay.Text = "Сохранено! Можно продолжать!";
+            catch (Exception ex)
+            { System.Windows.MessageBox.Show("Проверь формирование списка!\n" + ex.ToString(), "Ошибка"); }
         }
 
         private void BtnCreateSFsList_Click(object sender, RoutedEventArgs e)

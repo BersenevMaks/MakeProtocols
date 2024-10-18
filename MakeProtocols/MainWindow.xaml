@@ -51,10 +51,10 @@
                     <TextBox x:Name="txtModules" Grid.Column="1" Grid.Row="0" Height="auto" VerticalAlignment="Center" Margin="2" Text="2.6, 2.7, 2.9, 2.38" />
 
                     <TextBlock Grid.Column="0" Grid.Row="1" Margin="1" Text="Шифр схем" VerticalAlignment="Center"/>
-                    <TextBox x:Name="txtShifr" Grid.Column="1" Grid.Row="1" Height="auto" VerticalAlignment="Center" Margin="2" Text="АВУБ.316.4.22.03.03.04Э3"/>
+                    <TextBox x:Name="txtShifr" Grid.Column="1" Grid.Row="1" Height="auto" VerticalAlignment="Center" Margin="2" Text="АВУБ.316.6.22.03.03.01Э3"/>
 
                     <TextBlock Grid.Column="0" Grid.Row="2" Margin="1"  VerticalAlignment="Center" Text="Номер протокола" />
-                    <TextBox x:Name="txtNumbProt" Grid.Column="1" Grid.Row="2" Height="auto" Margin="2" VerticalAlignment="Center" Text="4/05-25"/>
+                    <TextBox x:Name="txtNumbProt" Grid.Column="1" Grid.Row="2" Height="auto" Margin="2" VerticalAlignment="Center" Text="4/05-26"/>
 
                     <TextBlock Grid.Column="0" Grid.Row="3" Margin="1"  VerticalAlignment="Center" Text="Шифр карты уставок" />
                     <TextBox x:Name="txtShifrUstavok" Grid.Column="1" Grid.Row="3" Height="auto" Margin="2" VerticalAlignment="Center" Text="3670-4.1.37.1-ЭМ1-1.2.4-Р4" />
