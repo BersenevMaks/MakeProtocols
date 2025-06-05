@@ -22,28 +22,38 @@ namespace MakeProtocols
         string directoryPath = Environment.CurrentDirectory + "\\";
         string protocolName = "";
 
+        Logger logger = new Logger(Environment.CurrentDirectory);
+
         public WordMaker(ObservableCollection<Automat> automats, ProtocolDocument _protocolDocument)
         {
-            //Заполнение списка автоматов из конструктора
-            for (int i = 0; i < automats.Count; i++)
-                Automats.Add(automats[i].Clone());
-
-            //Создание Общих сведений о протоколе из конструктора
-            protocolDocument = _protocolDocument;
-
-            //Создание директории для протоколов одного объекта (одного МСС)
-            if (protocolDocument != null)
+            try
             {
-                if (!string.IsNullOrEmpty(protocolDocument.ObjectProt))
-                {
-                    directoryPath += protocolDocument.ObjectProt + "\\";
-                    if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
-                }
-            }
+                //Заполнение списка автоматов из конструктора
+                for (int i = 0; i < automats.Count; i++)
+                    Automats.Add(automats[i].Clone());
 
-            //Полный путь будущего файла протокола
-            Regex regex = new Regex(@"(?<=\d\d\.)\d\d(?=[Ээ])");
-            protocolName = "№" + regex.Match(protocolDocument.Shifr).Value + " Протокол наладки модуля универсального " + protocolDocument.Shifr + ".docx";
+                //Создание Общих сведений о протоколе из конструктора
+                protocolDocument = _protocolDocument;
+
+                //Создание директории для протоколов одного объекта (одного МСС)
+                if (protocolDocument != null)
+                {
+                    if (!string.IsNullOrEmpty(protocolDocument.ObjectProt))
+                    {
+                        directoryPath += protocolDocument.ObjectProt + "\\";
+                        if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
+                    }
+                }
+
+
+                //Полный путь будущего файла протокола
+                Regex regex = new Regex(@"(?<=\d\d\.)\d\d(?=[Ээ])");
+                protocolName = "№" + regex.Match(protocolDocument.Shifr).Value + " Протокол наладки АВ шифр " + protocolDocument.KartUstav + ".docx";
+            }
+            catch(Exception ex)
+            {
+                logger.Log(ex.ToString());
+            }
         }
 
         //Создание файла Word и общие настройки
@@ -157,7 +167,7 @@ namespace MakeProtocols
                 paragraph.ApplyStyle(styleTitle14);
 
                 paragraph = section.AddParagraph();
-                paragraph.AppendText("Наладки модулей унифицированных");
+                paragraph.AppendText("Наладки автоматических выключателей");
                 paragraph.ApplyStyle(styleTitle12);
 
                 paragraph = section.AddParagraph();
@@ -175,7 +185,7 @@ namespace MakeProtocols
                 data = new string[] {
                     "1.  Протокол касается только объекта, подвергнутого измерениям.",
                     "2.  Протокол оформлен в соответствии с требованиями ГОСТ Р 50571.16-2007.",
-                    "3.  Проектная документация: Шифр 3760-4.1.12-ЭМ АО Механобр Инжиниринг.",
+                    $"3.  Проектная документация: Шифр {protocolDocument.Shifr} ООО \"ЦМИ\".",
                     "4.  Должно соответствовать требованиям ПУЭ 1.8, инструкции по эксплуатации.",
                     "5.  Климатические условия проведения испытаний: температура +20 °С",
                     "6.  Цель проведения испытания: приемо-сдаточные.",
@@ -238,15 +248,15 @@ namespace MakeProtocols
                 //Параграфы с общими данными и шифром карты уставок
                 section.AddParagraph();
                 data = new string[]{
-                    "8.2.Проверка автоматических выключателей",
-                    "8.2.1.Автоматические выключатели осмотрены, не имеют механических повреждений.Визуально проверено состояние монтажа, целостность комплектующих изделий. Также проверена затяжка силовых контактных соединений. Состояние автоматических выключателей соответствует заводским нормам.",
-                    "8.2.2.Испытание автоматических выключателей.",
+                    "8.2. Проверка автоматических выключателей",
+                    "8.2.1. Автоматические выключатели осмотрены, не имеют механических повреждений. Визуально проверено состояние монтажа, целостность комплектующих изделий. Также проверена затяжка силовых контактных соединений. Состояние автоматических выключателей соответствует заводским нормам.",
+                    "8.2.2. Испытание автоматических выключателей.",
                     "Уставки выставлены в соответствии с Таблицей уставок защит АВ МСС, шифр " + protocolDocument.KartUstav + "."
                 };
                 if(Automats[0].QFQS == "QS")
                     data = new string[]{
-                    "8.2.Проверка автоматических выключателей",
-                    "8.2.1.Автоматические выключатели осмотрены, не имеют механических повреждений.Визуально проверено состояние монтажа, целостность комплектующих изделий. Также проверена затяжка силовых контактных соединений. Состояние автоматических выключателей соответствует заводским нормам."
+                    "8.2. Проверка автоматических выключателей",
+                    "8.2.1. Автоматические выключатели осмотрены, не имеют механических повреждений. Визуально проверено состояние монтажа, целостность комплектующих изделий. Также проверена затяжка силовых контактных соединений. Состояние автоматических выключателей соответствует заводским нормам."
                 };
                 for (int i = 0; i < data.Length; i++)
                 {
@@ -362,17 +372,19 @@ namespace MakeProtocols
                     row = 0;
                     for (int r = 0; r < Automats.Count; r++)
                     {
-                        Paragraph p;
-                        TextRange txtRange;
+                        try
+                        {
+                            Paragraph p;
+                            TextRange txtRange;
 
-                        ispytanAutomatsTable.ApplyVerticalMerge(0, row + 2, row + 2 + 2);
-                        ispytanAutomatsTable.ApplyVerticalMerge(2, row + 2, row + 2 + 2);
+                            ispytanAutomatsTable.ApplyVerticalMerge(0, row + 2, row + 2 + 2);
+                            ispytanAutomatsTable.ApplyVerticalMerge(2, row + 2, row + 2 + 2);
 
-                        TableRow tr = ispytanAutomatsTable.Rows[row + 2];
-                        tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
-                        tr.HeightType = TableRowHeightType.AtLeast;
-                        List<string> characteristics = Automats[r].PhaseCharacteristics(random);
-                        string[] rowData = {
+                            TableRow tr = ispytanAutomatsTable.Rows[row + 2];
+                            tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
+                            tr.HeightType = TableRowHeightType.AtLeast;
+                            List<string> characteristics = Automats[r].PhaseCharacteristics(random);
+                            string[] rowData = {
                         Automats[r].NameAutomat + "\r" + Automats[r].Description,
                         "A",
                         Automats[r].NominalCurrent,
@@ -387,20 +399,20 @@ namespace MakeProtocols
                         characteristics[8]
                     };
 
-                        for (int c = 0; c < rowData.Length; c++)
-                        {
-                            p = tr.Cells[c].AddParagraph();
-                            tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                            p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                            txtRange = p.AppendText(rowData[c]);
-                            p.ApplyStyle(regularStyleTable_2);
-                        }
+                            for (int c = 0; c < rowData.Length; c++)
+                            {
+                                p = tr.Cells[c].AddParagraph();
+                                tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                                p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                                txtRange = p.AppendText(rowData[c]);
+                                p.ApplyStyle(regularStyleTable_2);
+                            }
 
-                        tr = ispytanAutomatsTable.Rows[row + 2 + 1];
-                        tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
-                        tr.HeightType = TableRowHeightType.AtLeast;
-                        characteristics = Automats[r].PhaseCharacteristics(random);
-                        rowData = new string[] {
+                            tr = ispytanAutomatsTable.Rows[row + 2 + 1];
+                            tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
+                            tr.HeightType = TableRowHeightType.AtLeast;
+                            characteristics = Automats[r].PhaseCharacteristics(random);
+                            rowData = new string[] {
                         "",
                         "B",
                         "",
@@ -415,20 +427,20 @@ namespace MakeProtocols
                         characteristics[8]
                     };
 
-                        for (int c = 0; c < rowData.Length; c++)
-                        {
-                            p = tr.Cells[c].AddParagraph();
-                            tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                            p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                            txtRange = p.AppendText(rowData[c]);
-                            p.ApplyStyle(regularStyleTable_2);
-                        }
+                            for (int c = 0; c < rowData.Length; c++)
+                            {
+                                p = tr.Cells[c].AddParagraph();
+                                tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                                p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                                txtRange = p.AppendText(rowData[c]);
+                                p.ApplyStyle(regularStyleTable_2);
+                            }
 
-                        tr = ispytanAutomatsTable.Rows[row + 2 + 2];
-                        tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
-                        tr.HeightType = TableRowHeightType.AtLeast;
-                        characteristics = Automats[r].PhaseCharacteristics(random);
-                        rowData = new string[] {
+                            tr = ispytanAutomatsTable.Rows[row + 2 + 2];
+                            tr.Height = Convert.ToSingle(0.93 * pointsForConvert);
+                            tr.HeightType = TableRowHeightType.AtLeast;
+                            characteristics = Automats[r].PhaseCharacteristics(random);
+                            rowData = new string[] {
                         "",
                         "C",
                         "",
@@ -443,16 +455,22 @@ namespace MakeProtocols
                         characteristics[8]
                     };
 
-                        for (int c = 0; c < rowData.Length; c++)
-                        {
-                            p = tr.Cells[c].AddParagraph();
-                            tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                            p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                            txtRange = p.AppendText(rowData[c]);
-                            p.ApplyStyle(regularStyleTable_2);
-                        }
+                            for (int c = 0; c < rowData.Length; c++)
+                            {
+                                p = tr.Cells[c].AddParagraph();
+                                tr.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                                p.Format.HorizontalAlignment = HorizontalAlignment.Center;
+                                txtRange = p.AppendText(rowData[c]);
+                                p.ApplyStyle(regularStyleTable_2);
+                            }
 
-                        row += 3; //пропускаем две строки, т.к. они уже заполнены
+                            row += 3; //пропускаем две строки, т.к. они уже заполнены
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Windows.MessageBox.Show($"Ошибка при создании автомата {Automats[r].NameAutomat}\n{ex.ToString()}");
+
+                        }
                     }
                 }
 
@@ -463,9 +481,9 @@ namespace MakeProtocols
                 if (Automats[0].QFQS == "QS")
                     punkt = "8.2.2. ";
                 data = new string[] {
-                    $"{punkt} Проверено сопротивление изоляции автоматических выключателей мегаомметром на 1000В в сборе.Сопротивление изоляции проверялось между полюсами выключателя, между полюсами и землей и сопротивление главных контактов выключателя на разрыв. Наименьшее значение сопротивления изоляции составило 5000Мом.Норма > 1 МОм.",
+                    $"{punkt} Проверено сопротивление изоляции автоматических выключателей мегаомметром на 1000В в сборе. Сопротивление изоляции проверялось между полюсами выключателя, между полюсами и землей и сопротивление главных контактов выключателя на разрыв. Наименьшее значение сопротивления изоляции составило 5000Мом. Норма > 1 МОм.",
                                        "\r",
-                    "8.3.Проверка промежуточных реле, контакторов и автоматических выключателей в составе модулей унифицированных.",
+                    "8.3. Проверка промежуточных реле, контакторов и автоматических выключателей в составе модулей унифицированных.",
                     "Проверка реле и контакторов в модулях " + protocolDocument.Modules + "."
                 };
                 for (int i = 0; i < data.Length; i++)
@@ -617,7 +635,7 @@ namespace MakeProtocols
                     Paragraph p = tr.Cells[0].AddParagraph();
                     tr.Cells[0].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
                     p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                    TextRange txtRange = p.AppendText(automat.NameAutomat);
+                    TextRange txtRange = p.AppendText("Релейный отсек\n" + automat.NameAutomat);
                     p.ApplyStyle(regularStyleTable_1);
 
                     int countPhasesForCounterRow = 0;
@@ -813,10 +831,10 @@ namespace MakeProtocols
                 section.AddParagraph();
                 //Текст заключение и кто выполнил проверку
                 data = new string[] {
-                "Заключение: Данные измерений и испытаний соответствуют нормам НТД.Оборудование пригодно к эксплуатации.",
+                "Заключение: Данные измерений и испытаний соответствуют нормам НТД. Оборудование пригодно к эксплуатации.",
                 "\t\tПроверку произвели:",
                 "",
-                "\t\t\t\tЗам.нач.ЭТЛ _______________________   Королев С.Ю.",
+                "\t\t\t\tЗам.нач.ЭТЛ _______________________ Королев С.Ю.",
                 "",
                 "\t\t\t\tНачальник ЭТЛ _____________________ Цепик Н.Н.",
                 ""

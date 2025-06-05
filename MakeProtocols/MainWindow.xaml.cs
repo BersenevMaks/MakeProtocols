@@ -71,61 +71,70 @@ namespace MakeProtocols
 
         private void PasteDataIntoDataGrid(string clipboardText)
         {
+            //string cbt = clipboardText.Replace("\t", "\n");
             string[] rows = clipboardText.Split('\n');
-
-            int numRows = rows.Length;
-            if (rows.Length > 1) numRows--; // Exclude the last empty row
-
-            if (numRows > 0)
+            int row = 1;
+            try
             {
-                string[] values = rows[0].Split('\t');
+                int numRows = rows.Length;
+                row++;
+                if (rows.Length > 1) numRows--; // Exclude the last empty row
 
-                if (values.Length == 21)
+                if (numRows > 0)
                 {
-                    // Clear the existing rows if needed
-                    AutomatsList.Clear();
+                    string[] values = rows[0].Split('\t');
 
-                    // Parse and populate the DataGrid
-                    for (int i = 0; i < numRows; i++)
+                    if (values.Length == 21)
                     {
+                        // Clear the existing rows if needed
+                        AutomatsList.Clear();
 
-                        values = rows[i].Split('\t'); // Assuming tab-separated values, adjust for other delimiters
-                        Automat au = new Automat();
-                        if (values[10] == "") values[10] = "Комбинированный";
-                        AutomatsList.Add(au.Factory
-                            (
-                                values[0],
-                                values[1],
-                                values[2],
-                                values[4],
-                                values[6],
-                                values[7],
-                                values[8],
-                                values[9],
-                                values[10],
-                                values[11],
-                                values[12],
-                                values[13],
-                                values[14],
-                                values[15],
-                                values[16],
-                                values[17],
-                                values[18],
-                                values[19],
-                                values[20]
-                            ));
+                        // Parse and populate the DataGrid
+                        for (int i = 0; i < numRows; i++)
+                        {
+
+                            values = rows[i].Split('\t'); // Assuming tab-separated values, adjust for other delimiters
+                            Automat au = new Automat();
+                            if (values[10] == "") values[10] = "Комбинированный";
+                            AutomatsList.Add(au.Factory
+                                (
+                                    values[0],
+                                    values[1],
+                                    values[2],
+                                    values[4],
+                                    values[6],
+                                    values[7],
+                                    values[8],
+                                    values[9],
+                                    values[10],
+                                    values[11],
+                                    values[12],
+                                    values[13],
+                                    values[14],
+                                    values[15],
+                                    values[16],
+                                    values[17],
+                                    values[18],
+                                    values[19],
+                                    values[20]
+                                ));
+                        }
+                    }
+                    else if (values.Length == 1)
+                    {
+                        //DataGridCell gridCell = TryToFindGridCell(dgAutomats, dgAutomats.SelectedCells[1]);
+                        //dgAutomats.SelectedValue = values[0].ToString();
+
+                        //DataGridCell dataGridCell = new DataGridCell();
+                        //dataGridCell.Content = values[0];
+                        //dgAutomats.SelectedItem = dataGridCell;
                     }
                 }
-                else if (values.Length == 1)
-                {
-                    //DataGridCell gridCell = TryToFindGridCell(dgAutomats, dgAutomats.SelectedCells[1]);
-                    //dgAutomats.SelectedValue = values[0].ToString();
 
-                    //DataGridCell dataGridCell = new DataGridCell();
-                    //dataGridCell.Content = values[0];
-                    //dgAutomats.SelectedItem = dataGridCell;
-                }
-
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Ошибка при вставке объектов в строке {row}\n\n" + ex.ToString(), "Ошибка");
             }
         }
 
